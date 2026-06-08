@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "backup": "tsx scripts/backup.ts"
+    "backup": "tsx scripts/backup.ts",
+    "sync-shipped": "tsx scripts/sync-shipped-config.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

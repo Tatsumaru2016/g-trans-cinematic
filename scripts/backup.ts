@@ -33,6 +33,8 @@ if (fromArg) {
   const customFilename = formatCustomBackupFilename();
   copyFileSync(latestCustomPath, join(backupsDir, customFilename));
   console.log(`Custom backup saved: backups/${customFilename}`);
+  const { execSync } = await import('node:child_process');
+  execSync('npx tsx scripts/sync-shipped-config.ts', { stdio: 'inherit', cwd: process.cwd() });
 } else {
   console.log('No custom snapshot yet — edit in Admin (dev server) or run: npm run backup -- --from=path/to/export.json');
 }
