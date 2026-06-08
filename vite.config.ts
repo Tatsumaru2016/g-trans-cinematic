@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 import { configBackupPlugin } from './scripts/vite-config-backup-plugin';
+import { ghPagesPlugin } from './scripts/vite-gh-pages-plugin';
 
 export default defineConfig(({ command }) => {
   const base =
@@ -12,7 +13,7 @@ export default defineConfig(({ command }) => {
 
   return {
     base,
-    plugins: [react(), tailwindcss(), configBackupPlugin()],
+    plugins: [react(), tailwindcss(), configBackupPlugin(), ghPagesPlugin()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
