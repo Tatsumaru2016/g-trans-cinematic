@@ -5,6 +5,13 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { SCENE_ACCENT } from '../config/sceneAccentColors';
+import {
+  createOceanCreature,
+  drawOceanCreatures,
+  pickOceanCreatureSpawn,
+  updateOceanCreatures,
+  type OceanCreature,
+} from './oceanSeaCreatures';
 import { SceneType, Particle3D } from '../types';
 
 interface BackgroundCanvasProps {
@@ -64,6 +71,8 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
   const sceneTimeRef = useRef<number>(0);
   const rotationRef = useRef({ x: 0, y: 0, z: 0 });
   const prevSceneRef = useRef<SceneType>(currentScene);
+  const oceanCreaturesRef = useRef<OceanCreature[]>([]);
+  const nextOceanSpawnRef = useRef<number>(0);
 
   // Floating city buildings matrix for Scene 06 (Discovery)
   const cityBuildings = useRef<Array<{ x: number; y: number; z: number; w: number; h: number; d: number; labels: string[] }>>([]);
@@ -156,6 +165,8 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
       sceneTimeRef.current = 0;
     } else if (currentScene === 'ocean' && prevSceneRef.current !== 'ocean') {
       initializeParticles(particleCount);
+      oceanCreaturesRef.current = [];
+      nextOceanSpawnRef.current = 0;
       sceneTimeRef.current = 0;
     } else if (currentScene === 'breakthrough' && prevSceneRef.current !== 'breakthrough') {
       initializeParticles(particleCount);
@@ -437,6 +448,39 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
         p.alpha += (p.tAlpha - p.alpha) * (currentScene === 'ocean' ? 0.2 : currentScene === 'future' ? 0.12 : 0.08);
       });
 
+      if (currentScene === 'ocean') {
+        const dt = 0.016;
+        const creatures = oceanCreaturesRef.current;
+        const oceanViewport = {
+          fov,
+          screenHalfWidth: width * 0.5,
+          screenHalfHeight: height * 0.5,
+        };
+
+        updateOceanCreatures(creatures, time, dt, oceanViewport);
+
+        if (nextOceanSpawnRef.current === 0) {
+          nextOceanSpawnRef.current = time + 1.2 + Math.random() * 2.5;
+        }
+
+        if (time >= nextOceanSpawnRef.current && creatures.length < 3) {
+          const spawn = pickOceanCreatureSpawn();
+          creatures.push(
+            createOceanCreature(
+              spawn.kind,
+              MULTILINGUAL_CHARS,
+              time,
+              oceanViewport,
+              { giant: spawn.giant },
+            ),
+          );
+          nextOceanSpawnRef.current = time + 4 + Math.random() * 7;
+        }
+      } else if (oceanCreaturesRef.current.length > 0) {
+        oceanCreaturesRef.current = [];
+        nextOceanSpawnRef.current = 0;
+      }
+
       // Draw 3D Wireframe outline city for Discovery (Scene 06)
       if (currentScene === 'discovery') {
         ctx.strokeStyle = 'rgba(250, 204, 21, 0.035)';
@@ -561,6 +605,19 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
           ctx.stroke();
         }
       });
+
+      if (currentScene === 'ocean') {
+        drawOceanCreatures(ctx, oceanCreaturesRef.current, time, {
+          fov,
+          cx,
+          cy,
+          parallaxX: sceneParallaxX,
+          parallaxY: sceneParallaxY,
+          width,
+          height,
+          glyphPool: MULTILINGUAL_CHARS,
+        });
+      }
 
       // Restore alpha and frame operations
       ctx.globalAlpha = 1.0;
