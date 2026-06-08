@@ -1,0 +1,560 @@
+{
+  "version": 2,
+  "scenes": {
+    "ocean": {
+      "enabled": true,
+      "number": "01",
+      "navTitle": "The Ocean",
+      "labLabel": "Language Ocean",
+      "badge": "Scene 01 // The Language Ocean",
+      "title": "Language surrounds us.",
+      "body": "Understanding should not be difficult. Millions of unique expressions, letters, and dialects swirl like stars in a chaotic cosmic void."
+    },
+    "barrier": {
+      "enabled": true,
+      "number": "02",
+      "navTitle": "The Barrier",
+      "labLabel": "The Barrier Wall",
+      "badge": "Scene 02 // The Wall",
+      "title": "Every barrier begins with",
+      "titleAccent": "misunderstanding",
+      "body": "As the letters coalesce, they form an impenetrable colossal wall. A solid divide blocking progress, hiding opportunity, and hindering connection.",
+      "ctaLabel": "Break Through Wall"
+    },
+    "breakthrough": {
+      "enabled": true,
+      "number": "03",
+      "navTitle": "Shining Event",
+      "labLabel": "Breakthrough Event",
+      "badge": "Scene 03 // Breakthrough",
+      "title": "Understanding",
+      "titleAccent": "changes everything.",
+      "body": "The wall shatters. Barriers dissolve into radiant light streams, clearing the path into absolute digital clarity."
+    },
+    "work": {
+      "enabled": true,
+      "number": "04",
+      "navTitle": "Enterprise Work",
+      "labLabel": "Enterprise Work grids",
+      "badge": "Scene 04 // Enterprise Translation",
+      "title": "Work globally.",
+      "titleAccent": "Communicate naturally.",
+      "body": "Collaboration moves beyond lines of origin. G.trans decodes business specifications, legal documents, and daily messaging pipelines instantly."
+    },
+    "gaming": {
+      "enabled": true,
+      "number": "05",
+      "navTitle": "World Gaming",
+      "labLabel": "Live MMO Hub",
+      "badge": "Scene 05 // Global MMO Gaming",
+      "title": "Play with the",
+      "titleAccent": "world.",
+      "body": "In massive interactive worlds, latency is measured in milliseconds and misunderstandings can spell defeat. G.trans translates squad chatter in real-time, instantly."
+    },
+    "discovery": {
+      "enabled": true,
+      "number": "06",
+      "navTitle": "City Explorer",
+      "labLabel": "City Discovery Maps",
+      "badge": "Scene 06 // Universal Discovery",
+      "title": "Explore without",
+      "titleAccent": "limits.",
+      "body": "Gliding through foreign streets becomes comfortable. Local signage, menus, transit routes, and informative guidelines are decoded and readable instantly."
+    },
+    "voice": {
+      "enabled": true,
+      "number": "07",
+      "navTitle": "Voice Pulse",
+      "labLabel": "Vocal Soundwave",
+      "badge": "Scene 07 // Vocal Resonance",
+      "title": "Speak naturally. Be understood",
+      "titleAccent": "instantly.",
+      "body": "Your vocal style, pitch, cadence, and emotion transform seamlessly. Voice waves dissolve into raw digital meaning, re-shaping into any target dialect.",
+      "ctaLabel": "Start Voice Simulation"
+    },
+    "connection": {
+      "enabled": true,
+      "number": "08",
+      "navTitle": "Continents Arc",
+      "labLabel": "Global Globe Connect",
+      "badge": "Scene 08 // Global Synchronization",
+      "title": "One world.",
+      "titleAccent": "Millions of conversations.",
+      "body": "Continents align directly. Conversations cascade instantly. G.trans spans thousands of nodes across physical territories, creating an interconnected ecosystem where distance is fully minimized."
+    },
+    "future": {
+      "enabled": true,
+      "number": "09",
+      "navTitle": "Infinite Light",
+      "labLabel": "Invisible Future",
+      "badge": "Scene 09 // Celestial White",
+      "title": "The future does not speak one language.",
+      "titleAccent": "It speaks all of them.",
+      "body": "When barriers dissolve entirely, only pure understanding remains. No translation dashboards, no waiting times. Absolute invisible coordination.",
+      "ctaLabel": "Enter the Void"
+    }
+  },
+  "workDocs": [
+    {
+      "id": "1",
+      "type": "email",
+      "sender": "Kenji Sato (Tokyo, Japan)",
+      "time": "Just now",
+      "original": "弊社は新規市場への拡大計画およびグローバルにおけるビジネスの多様化戦略を加速するため、最先端のAI統合を進めております。",
+      "translated": "Our company is expediting advanced AI integrations to accelerate our expansion plans into new markets and push our global business diversification strategy forward.",
+      "conf": 99.8
+    },
+    {
+      "id": "2",
+      "type": "doc",
+      "sender": "Dr. Clara Meyer (Berlin, Germany)",
+      "time": "2 mins ago",
+      "original": "Die thermodynamischen Berechnungen für das neue Kühlsystem weisen eine Effizienzkonstante auf, die alle bisherigen Standardparameter übertrifft.",
+      "translated": "The thermodynamic calculations for the new cooling system indicate an efficiency constant that surpasses all previous standard parameters.",
+      "conf": 99.4
+    },
+    {
+      "id": "3",
+      "type": "meeting",
+      "sender": "Pierre Dubois (Paris, France)",
+      "time": "12 mins ago",
+      "original": "Nous devons finaliser le budget opérationnel d'ici vendredi midi afin de garantir les ressources financières nécessaires au prochain trimestre.",
+      "translated": "We must finalize the operational budget by Friday noon to guarantee the financial resources necessary for the upcoming quarter.",
+      "conf": 98.9
+    }
+  ],
+  "chatMessages": [
+    {
+      "id": "1",
+      "lang": "JP",
+      "username": "Kaito_04",
+      "original": "ここから一気に攻めて、ボスを倒しましょう！",
+      "translated": "Let's blitz from here and take down the boss together!",
+      "color": "text-cyan-400",
+      "active": true
+    },
+    {
+      "id": "2",
+      "lang": "KR",
+      "username": "ProGamer_Min",
+      "original": "포기하지 마세요! 내가 힐 넣고 있으니까 대기타세요.",
+      "translated": "Don't give up! I am casting heals, wait for my signal.",
+      "color": "text-violet-400",
+      "active": true
+    },
+    {
+      "id": "3",
+      "lang": "ES",
+      "username": "Elena_Ninja",
+      "original": "¡Listo! Voy por el flanco derecho para sorprenderlos.",
+      "translated": "Ready! I am going around the right flank to surprise them.",
+      "color": "text-rose-400",
+      "active": true
+    },
+    {
+      "id": "4",
+      "lang": "FR",
+      "username": "HugoWarrior",
+      "original": "Attention à l'attaque de feu, repliez-vous!",
+      "translated": "Watch out for the fire attack, retreat!",
+      "color": "text-amber-400",
+      "active": true
+    }
+  ],
+  "discoverySigns": [
+    {
+      "id": "1",
+      "label": "営業時間: 10:00 - 22:00",
+      "translation": "Hours: 10:00 AM - 10:00 PM",
+      "x": 20,
+      "y": 30,
+      "scale": 1
+    },
+    {
+      "id": "2",
+      "label": "地下鉄 新宿駅方面 →",
+      "translation": "Shinjuku Subway Direction →",
+      "x": 50,
+      "y": 60,
+      "scale": 1
+    },
+    {
+      "id": "3",
+      "label": "本日完売しました",
+      "translation": "Sold Out Today",
+      "x": 80,
+      "y": 15,
+      "scale": 1
+    },
+    {
+      "id": "4",
+      "label": "立ち入り禁止 - 危険",
+      "translation": "No Entry - Danger Zone",
+      "x": 12,
+      "y": 75,
+      "scale": 1
+    }
+  ],
+  "globalPings": [
+    {
+      "from": "Tokyo, Japan",
+      "to": "New York, USA",
+      "message": "Medical research files updated instantly in both English and Japanese.",
+      "speed": "32ms"
+    },
+    {
+      "from": "São Paulo, Brazil",
+      "to": "Frankfurt, Germany",
+      "message": "Architectural specifications fully cross-translated seamlessly.",
+      "speed": "48ms"
+    },
+    {
+      "from": "Cairo, Egypt",
+      "to": "Paris, France",
+      "message": "Cultural guide and historical artifact catalogs synchronized.",
+      "speed": "62ms"
+    }
+  ],
+  "finalCta": {
+    "tagline": "G.trans Global Network Client",
+    "title": "G.trans",
+    "description": "Seamless coordination. Invisible barrier removal. Global communication without boundaries.",
+    "downloadLabel": "Download Client",
+    "replayLabel": "Replay Film"
+  },
+  "locales": {
+    "ja": {
+      "scenes": {
+        "ocean": {
+          "navTitle": "言語の海",
+          "labLabel": "Language Ocean",
+          "badge": "Scene 01 // The Language Ocean",
+          "title": "言語は私たちを取り囲んでいる。",
+          "body": "理解は、難しくあるべきではない。数百万もの独特な表現、文字、方言が、混沌とした宇宙の虚空で星のように渦を巻いている。"
+        },
+        "barrier": {
+          "navTitle": "障壁",
+          "labLabel": "The Barrier Wall",
+          "badge": "Scene 02 // The Wall",
+          "title": "すべての障壁は",
+          "titleAccent": "誤解から始まる",
+          "body": "文字が集まると、突破不可能な巨大な壁を形作る。進歩を阻み、機会を隠し、つながりを妨げる、固い分断となる。",
+          "ctaLabel": "壁を突破する"
+        },
+        "breakthrough": {
+          "navTitle": "突破の瞬間",
+          "labLabel": "Breakthrough Event",
+          "badge": "Scene 03 // Breakthrough",
+          "title": "理解は",
+          "titleAccent": "すべてを変える。",
+          "body": "壁が砕け散る。障壁は輝く光の流れへと溶け、絶対的なデジタルの明晰さへの道を開く。"
+        },
+        "work": {
+          "navTitle": "Enterprise Work",
+          "labLabel": "Enterprise Work grids",
+          "badge": "Scene 04 // Enterprise Translation",
+          "title": "世界で働く。",
+          "titleAccent": "自然にコミュニケーション。",
+          "body": "協働は出身の境界を超えていく。G.trans はビジネス仕様、法律文書、日々のメッセージングを瞬時に解読する。"
+        },
+        "gaming": {
+          "navTitle": "World Gaming",
+          "labLabel": "Live MMO Hub",
+          "badge": "Scene 05 // Global MMO Gaming",
+          "title": "世界と",
+          "titleAccent": "プレイする。",
+          "body": "大規模なインタラクティブ世界では、遅延はミリ秒単位で測られ、誤解は敗北を意味する。G.trans はスクワッドチャットをリアルタイムで、瞬時に翻訳する。"
+        },
+        "discovery": {
+          "navTitle": "City Explorer",
+          "labLabel": "City Discovery Maps",
+          "badge": "Scene 06 // Universal Discovery",
+          "title": "制限なく",
+          "titleAccent": "探索する。",
+          "body": "見慣れない街を行くことも快適になる。地元の看板、メニュー、交通ルート、案内表示が瞬時に解読され、読めるようになる。"
+        },
+        "voice": {
+          "navTitle": "Voice Pulse",
+          "labLabel": "Vocal Soundwave",
+          "badge": "Scene 07 // Vocal Resonance",
+          "title": "自然に話す。理解される",
+          "titleAccent": "瞬時に。",
+          "body": "声のスタイル、ピッチ、抑揚、感情がシームレスに変換される。音声の波は生のデジタル意味へと解け、任意の方言へと再構成される。",
+          "ctaLabel": "音声シミュレーション開始"
+        },
+        "connection": {
+          "navTitle": "Continents Arc",
+          "labLabel": "Global Globe Connect",
+          "badge": "Scene 08 // Global Synchronization",
+          "title": "ひとつの世界。",
+          "titleAccent": "数百万の会話。",
+          "body": "大陸が直接結ばれる。会話が瞬時に連鎖する。G.trans は物理的な領域にまたがる数千のノードを結び、距離が完全に最小化された相互連結エコシステムを創る。"
+        },
+        "future": {
+          "navTitle": "Infinite Light",
+          "labLabel": "Invisible Future",
+          "badge": "Scene 09 // Celestial White",
+          "title": "未来は、ひとつの言語だけを話すわけではない。",
+          "titleAccent": "すべての言語を話す。",
+          "body": "障壁が完全に溶けたとき、残るのは純粋な理解だけ。翻訳ダッシュボードも、待ち時間もない。完全に見えない調和。",
+          "ctaLabel": "虚空へ入る"
+        }
+      },
+      "discoverySigns": [
+        {
+          "id": "1",
+          "label": "営業時間: 10:00 - 22:00",
+          "translation": "営業時間：10:00〜22:00"
+        },
+        {
+          "id": "2",
+          "label": "地下鉄 新宿駅方面 →",
+          "translation": "地下鉄 新宿駅方面 →"
+        },
+        {
+          "id": "3",
+          "label": "本日完売しました",
+          "translation": "本日完売しました"
+        },
+        {
+          "id": "4",
+          "label": "立ち入り禁止 - 危険",
+          "translation": "立ち入り禁止 — 危険区域"
+        }
+      ],
+      "finalCta": {
+        "tagline": "G.trans Global Network Client",
+        "title": "G.trans",
+        "description": "シームレスな連携。見えない障壁の除去。境界のないグローバルコミュニケーション。",
+        "downloadLabel": "クライアントをダウンロード",
+        "replayLabel": "フィルムを再生"
+      }
+    },
+    "ko": {
+      "scenes": {
+        "ocean": {
+          "navTitle": "언어의 바다",
+          "labLabel": "Language Ocean",
+          "badge": "Scene 01 // The Language Ocean",
+          "title": "언어는 우리를 둘러싸고 있습니다.",
+          "body": "이해는 어려울 필요가 없습니다. 수백만 가지 독특한 표현, 문자, 방언이 혼돈의 우주 공허 속에서 별처럼 소용돌이칩니다."
+        },
+        "barrier": {
+          "navTitle": "장벽",
+          "labLabel": "The Barrier Wall",
+          "badge": "Scene 02 // The Wall",
+          "title": "모든 장벽은",
+          "titleAccent": "오해에서 시작됩니다",
+          "body": "글자들이 모이면 난공불락의 거대한 벽을 이룹니다. 진보를 막고, 기회를 가리며, 연결을 방해하는 단단한 분단이 됩니다.",
+          "ctaLabel": "벽 돌파"
+        },
+        "breakthrough": {
+          "navTitle": "돌파의 순간",
+          "labLabel": "Breakthrough Event",
+          "badge": "Scene 03 // Breakthrough",
+          "title": "이해는",
+          "titleAccent": "모든 것을 바꿉니다.",
+          "body": "벽이 산산조각 납니다. 장벽은 빛나는 빛의 흐름으로 녹아, 절대적인 디지털 명료함으로 향하는 길을 엽니다."
+        },
+        "work": {
+          "navTitle": "Enterprise Work",
+          "labLabel": "Enterprise Work grids",
+          "badge": "Scene 04 // Enterprise Translation",
+          "title": "전 세계에서 일하세요.",
+          "titleAccent": "자연스럽게 소통하세요.",
+          "body": "협업은 출신의 경계를 넘어섭니다. G.trans는 비즈니스 사양, 법률 문서, 일상 메시징을 즉시 해독합니다."
+        },
+        "gaming": {
+          "navTitle": "World Gaming",
+          "labLabel": "Live MMO Hub",
+          "badge": "Scene 05 // Global MMO Gaming",
+          "title": "세계와",
+          "titleAccent": "함께 플레이.",
+          "body": "대규모 인터랙티브 세계에서 지연은 밀리초 단위로 측정되며, 오해는 패배를 의미합니다. G.trans는 스쿼드 채팅을 실시간으로, 즉시 번역합니다."
+        },
+        "discovery": {
+          "navTitle": "City Explorer",
+          "labLabel": "City Discovery Maps",
+          "badge": "Scene 06 // Universal Discovery",
+          "title": "제한 없이",
+          "titleAccent": "탐험하세요.",
+          "body": "낯선 거리를 걸어도 편안해집니다. 현지 간판, 메뉴, 교통 노선, 안내 표지가 즉시 해독되어 읽을 수 있습니다."
+        },
+        "voice": {
+          "navTitle": "Voice Pulse",
+          "labLabel": "Vocal Soundwave",
+          "badge": "Scene 07 // Vocal Resonance",
+          "title": "자연스럽게 말하세요. 이해받으세요",
+          "titleAccent": "즉시.",
+          "body": "목소리의 스타일, 피치, 억양, 감정이 매끄럽게 변환됩니다. 음성 파동은 디지털 의미로 녹아들어, 어떤 방언으로든 재구성됩니다.",
+          "ctaLabel": "음성 시뮬레이션 시작"
+        },
+        "connection": {
+          "navTitle": "Continents Arc",
+          "labLabel": "Global Globe Connect",
+          "badge": "Scene 08 // Global Synchronization",
+          "title": "하나의 세계.",
+          "titleAccent": "수백만의 대화.",
+          "body": "대륙이 직접 연결됩니다. 대화가 즉시 연쇄됩니다. G.trans는 물리적 영토에 걸친 수천 개의 노드를 연결해, 거리가 완전히 최소화된 상호 연결 생태계를 만듭니다."
+        },
+        "future": {
+          "navTitle": "Infinite Light",
+          "labLabel": "Invisible Future",
+          "badge": "Scene 09 // Celestial White",
+          "title": "미래는 하나의 언어만 말하지 않습니다.",
+          "titleAccent": "모든 언어를 말합니다.",
+          "body": "장벽이 완전히 사라지면, 순수한 이해만 남습니다. 번역 대시보드도, 대기 시간도 없습니다. 완전히 보이지 않는 조율.",
+          "ctaLabel": "공허로 들어가기"
+        }
+      },
+      "discoverySigns": [
+        {
+          "id": "1",
+          "label": "営業時間: 10:00 - 22:00",
+          "translation": "영업시간: 10:00 - 22:00"
+        },
+        {
+          "id": "2",
+          "label": "地下鉄 新宿駅方面 →",
+          "translation": "지하철 신주쿠역 방면 →"
+        },
+        {
+          "id": "3",
+          "label": "本日完売しました",
+          "translation": "오늘 매진"
+        },
+        {
+          "id": "4",
+          "label": "立ち入り禁止 - 危険",
+          "translation": "출입 금지 — 위험 구역"
+        }
+      ],
+      "finalCta": {
+        "tagline": "G.trans Global Network Client",
+        "title": "G.trans",
+        "description": "매끄러운 협업. 보이지 않는 장벽 제거. 경계 없는 글로벌 커뮤니케이션.",
+        "downloadLabel": "클라이언트 다운로드",
+        "replayLabel": "필름 다시보기"
+      }
+    },
+    "zh": {
+      "scenes": {
+        "ocean": {
+          "navTitle": "语言之海",
+          "labLabel": "Language Ocean",
+          "badge": "Scene 01 // The Language Ocean",
+          "title": "语言围绕着我们。",
+          "body": "理解不应是困难的。数百万种独特的表达、文字和方言，如同星辰一般在混沌的宇宙虚空中旋转。"
+        },
+        "barrier": {
+          "navTitle": "障碍",
+          "labLabel": "The Barrier Wall",
+          "badge": "Scene 02 // The Wall",
+          "title": "一切障碍始于",
+          "titleAccent": "误解",
+          "body": "文字汇聚成不可逾越的巨墙。它阻挡进步、隐藏机会、阻碍连接，形成坚固的分隔。",
+          "ctaLabel": "突破高墙"
+        },
+        "breakthrough": {
+          "navTitle": "突破时刻",
+          "labLabel": "Breakthrough Event",
+          "badge": "Scene 03 // Breakthrough",
+          "title": "理解",
+          "titleAccent": "改变一切。",
+          "body": "高墙粉碎。障碍化为光芒之流，为绝对的数字清晰开辟道路。"
+        },
+        "work": {
+          "navTitle": "Enterprise Work",
+          "labLabel": "Enterprise Work grids",
+          "badge": "Scene 04 // Enterprise Translation",
+          "title": "在全球工作。",
+          "titleAccent": "自然沟通。",
+          "body": "协作超越出身界限。G.trans 即时解读商业规格、法律文件和日常消息。"
+        },
+        "gaming": {
+          "navTitle": "World Gaming",
+          "labLabel": "Live MMO Hub",
+          "badge": "Scene 05 // Global MMO Gaming",
+          "title": "与世界",
+          "titleAccent": "同玩。",
+          "body": "在大型互动世界中，延迟以毫秒计，误解可能导致失败。G.trans 实时、即时翻译小队聊天。"
+        },
+        "discovery": {
+          "navTitle": "City Explorer",
+          "labLabel": "City Discovery Maps",
+          "badge": "Scene 06 // Universal Discovery",
+          "title": "无限",
+          "titleAccent": "探索。",
+          "body": "穿行于陌生街道也变得舒适。当地招牌、菜单、交通路线和指引信息即时解码可读。"
+        },
+        "voice": {
+          "navTitle": "Voice Pulse",
+          "labLabel": "Vocal Soundwave",
+          "badge": "Scene 07 // Vocal Resonance",
+          "title": "自然说话。被理解",
+          "titleAccent": "即时。",
+          "body": "你的声线、音高、节奏和情感无缝转换。声波化为原始数字含义，重塑为任意目标方言。",
+          "ctaLabel": "开始语音模拟"
+        },
+        "connection": {
+          "navTitle": "Continents Arc",
+          "labLabel": "Global Globe Connect",
+          "badge": "Scene 08 // Global Synchronization",
+          "title": "一个世界。",
+          "titleAccent": "数百万对话。",
+          "body": "大陆直接相连。对话即时连锁。G.trans 跨越物理疆域连接数千节点，构建距离完全最小化的互联生态。"
+        },
+        "future": {
+          "navTitle": "Infinite Light",
+          "labLabel": "Invisible Future",
+          "badge": "Scene 09 // Celestial White",
+          "title": "未来不只说一种语言。",
+          "titleAccent": "它说所有语言。",
+          "body": "当障碍完全消散，只剩纯粹的理解。没有翻译面板，没有等待。完全无形的协调。",
+          "ctaLabel": "进入虚空"
+        }
+      },
+      "discoverySigns": [
+        {
+          "id": "1",
+          "label": "営業時間: 10:00 - 22:00",
+          "translation": "营业时间：10:00 - 22:00"
+        },
+        {
+          "id": "2",
+          "label": "地下鉄 新宿駅方面 →",
+          "translation": "地铁 新宿站方向 →"
+        },
+        {
+          "id": "3",
+          "label": "本日完売しました",
+          "translation": "今日售罄"
+        },
+        {
+          "id": "4",
+          "label": "立ち入り禁止 - 危険",
+          "translation": "禁止入内 — 危险区域"
+        }
+      ],
+      "finalCta": {
+        "tagline": "G.trans Global Network Client",
+        "title": "G.trans",
+        "description": "无缝协作。消除无形障碍。无界限的全球沟通。",
+        "downloadLabel": "下载客户端",
+        "replayLabel": "重播影片"
+      }
+    }
+  },
+  "gamingUtterance": {
+    "targetLanguage": "English",
+    "sampleInput": "ここから一気に攻めて、ボスを倒しましょう！",
+    "sampleTranslated": "Let's blitz from here and take down the boss together!"
+  },
+  "defaults": {
+    "particleCount": 750,
+    "bgmActive": false,
+    "sfxActive": false,
+    "interactiveMode": true,
+    "showDeveloperPanel": false
+  }
+}

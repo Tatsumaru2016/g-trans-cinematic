@@ -1,0 +1,6 @@
+{
+  "name": "G.trans",
+  "description": "An immersive scroll-driven cinematic digital experience highlighting the disappearance of language barriers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,231 @@
+{
+  "version": 1,
+  "scenes": {
+    "ocean": {
+      "enabled": true,
+      "number": "01",
+      "navTitle": "The Ocean",
+      "labLabel": "Language Ocean",
+      "badge": "Scene 01 // The Language Ocean",
+      "title": "Language surrounds us.",
+      "body": "Understanding should not be difficult. Millions of unique expressions, letters, and dialects swirl like stars in a chaotic cosmic void."
+    },
+    "barrier": {
+      "enabled": true,
+      "number": "02",
+      "navTitle": "The Barrier",
+      "labLabel": "The Barrier Wall",
+      "badge": "Scene 02 // The Wall",
+      "title": "Every barrier begins with",
+      "titleAccent": "misunderstanding",
+      "body": "As the letters coalesce, they form an impenetrable colossal wall. A solid divide blocking progress, hiding opportunity, and hindering connection.",
+      "ctaLabel": "Break Through Wall"
+    },
+    "breakthrough": {
+      "enabled": true,
+      "number": "03",
+      "navTitle": "Shining Event",
+      "labLabel": "Breakthrough Event",
+      "badge": "Scene 03 // Breakthrough",
+      "title": "Understanding",
+      "titleAccent": "changes everything.",
+      "body": "The wall shatters. Barriers dissolve into radiant light streams, clearing the path into absolute digital clarity."
+    },
+    "work": {
+      "enabled": true,
+      "number": "04",
+      "navTitle": "Enterprise Work",
+      "labLabel": "Enterprise Work grids",
+      "badge": "Scene 04 // Enterprise Translation",
+      "title": "Work globally.",
+      "titleAccent": "Communicate naturally.",
+      "body": "Collaboration moves beyond lines of origin. G.trans decodes business specifications, legal documents, and daily messaging pipelines instantly."
+    },
+    "gaming": {
+      "enabled": true,
+      "number": "05",
+      "navTitle": "World Gaming",
+      "labLabel": "Live MMO Hub",
+      "badge": "Scene 05 // Global MMO Gaming",
+      "title": "Play with the",
+      "titleAccent": "world.",
+      "body": "In massive interactive worlds, latency is measured in milliseconds and misunderstandings can spell defeat. G.trans translates squad chatter in real-time, instantly."
+    },
+    "discovery": {
+      "enabled": true,
+      "number": "06",
+      "navTitle": "City Explorer",
+      "labLabel": "City Discovery Maps",
+      "badge": "Scene 06 // Universal Discovery",
+      "title": "Explore without",
+      "titleAccent": "limits.",
+      "body": "Gliding through foreign streets becomes comfortable. Local signage, menus, transit routes, and informative guidelines are decoded and readable instantly."
+    },
+    "voice": {
+      "enabled": true,
+      "number": "07",
+      "navTitle": "Voice Pulse",
+      "labLabel": "Vocal Soundwave",
+      "badge": "Scene 07 // Vocal Resonance",
+      "title": "Speak naturally. Be understood",
+      "titleAccent": "instantly.",
+      "body": "Your vocal style, pitch, cadence, and emotion transform seamlessly. Voice waves dissolve into raw digital meaning, re-shaping into any target dialect.",
+      "ctaLabel": "Start Voice Simulation"
+    },
+    "connection": {
+      "enabled": true,
+      "number": "08",
+      "navTitle": "Continents Arc",
+      "labLabel": "Global Globe Connect",
+      "badge": "Scene 08 // Global Synchronization",
+      "title": "One world.",
+      "titleAccent": "Millions of conversations.",
+      "body": "Continents align directly. Conversations cascade instantly. G.trans spans thousands of nodes across physical territories, creating an interconnected ecosystem where distance is fully minimized."
+    },
+    "future": {
+      "enabled": true,
+      "number": "09",
+      "navTitle": "Infinite Light",
+      "labLabel": "Invisible Future",
+      "badge": "Scene 09 // Celestial White",
+      "title": "The future does not speak one language.",
+      "titleAccent": "It speaks all of them.",
+      "body": "When barriers dissolve entirely, only pure understanding remains. No translation dashboards, no waiting times. Absolute invisible coordination.",
+      "ctaLabel": "Enter the Void"
+    }
+  },
+  "workDocs": [
+    {
+      "id": "1",
+      "type": "email",
+      "sender": "Kenji Sato (Tokyo, Japan)",
+      "time": "Just now",
+      "original": "弊社は新規市場への拡大計画およびグローバルにおけるビジネスの多様化戦略を加速するため、最先端のAI統合を進めております。",
+      "translated": "Our company is expediting advanced AI integrations to accelerate our expansion plans into new markets and push our global business diversification strategy forward.",
+      "conf": 99.8
+    },
+    {
+      "id": "2",
+      "type": "doc",
+      "sender": "Dr. Clara Meyer (Berlin, Germany)",
+      "time": "2 mins ago",
+      "original": "Die thermodynamischen Berechnungen für das neue Kühlsystem weisen eine Effizienzkonstante auf, die alle bisherigen Standardparameter übertrifft.",
+      "translated": "The thermodynamic calculations for the new cooling system indicate an efficiency constant that surpasses all previous standard parameters.",
+      "conf": 99.4
+    },
+    {
+      "id": "3",
+      "type": "meeting",
+      "sender": "Pierre Dubois (Paris, France)",
+      "time": "12 mins ago",
+      "original": "Nous devons finaliser le budget opérationnel d'ici vendredi midi afin de garantir les ressources financières nécessaires au prochain trimestre.",
+      "translated": "We must finalize the operational budget by Friday noon to guarantee the financial resources necessary for the upcoming quarter.",
+      "conf": 98.9
+    }
+  ],
+  "chatMessages": [
+    {
+      "id": "1",
+      "lang": "JP",
+      "username": "Kaito_04",
+      "original": "ここから一気に攻めて、ボスを倒しましょう！",
+      "translated": "Let's blitz from here and take down the boss together!",
+      "color": "text-cyan-400",
+      "active": true
+    },
+    {
+      "id": "2",
+      "lang": "KR",
+      "username": "ProGamer_Min",
+      "original": "포기하지 마세요! 내가 힐 넣고 있으니까 대기타세요.",
+      "translated": "Don't give up! I am casting heals, wait for my signal.",
+      "color": "text-violet-400",
+      "active": true
+    },
+    {
+      "id": "3",
+      "lang": "ES",
+      "username": "Elena_Ninja",
+      "original": "¡Listo! Voy por el flanco derecho para sorprenderlos.",
+      "translated": "Ready! I am going around the right flank to surprise them.",
+      "color": "text-rose-400",
+      "active": true
+    },
+    {
+      "id": "4",
+      "lang": "FR",
+      "username": "HugoWarrior",
+      "original": "Attention à l'attaque de feu, repliez-vous!",
+      "translated": "Watch out for the fire attack, retreat!",
+      "color": "text-amber-400",
+      "active": true
+    }
+  ],
+  "discoverySigns": [
+    {
+      "id": "1",
+      "label": "営業時間: 10:00 - 22:00",
+      "translation": "Hours: 10:00 AM - 10:00 PM",
+      "x": 20,
+      "y": 30,
+      "scale": 1
+    },
+    {
+      "id": "2",
+      "label": "地下鉄 新宿駅方面 →",
+      "translation": "Shinjuku Subway Direction →",
+      "x": 50,
+      "y": 60,
+      "scale": 1
+    },
+    {
+      "id": "3",
+      "label": "本日完売しました",
+      "translation": "Sold Out Today",
+      "x": 80,
+      "y": 15,
+      "scale": 1
+    },
+    {
+      "id": "4",
+      "label": "立ち入り禁止 - 危険",
+      "translation": "No Entry - Danger Zone",
+      "x": 12,
+      "y": 75,
+      "scale": 1
+    }
+  ],
+  "globalPings": [
+    {
+      "from": "Tokyo, Japan",
+      "to": "New York, USA",
+      "message": "Medical research files updated instantly in both English and Japanese.",
+      "speed": "32ms"
+    },
+    {
+      "from": "São Paulo, Brazil",
+      "to": "Frankfurt, Germany",
+      "message": "Architectural specifications fully cross-translated seamlessly.",
+      "speed": "48ms"
+    },
+    {
+      "from": "Cairo, Egypt",
+      "to": "Paris, France",
+      "message": "Cultural guide and historical artifact catalogs synchronized.",
+      "speed": "62ms"
+    }
+  ],
+  "finalCta": {
+    "tagline": "G.trans Global Network Client",
+    "title": "G.trans",
+    "description": "Seamless coordination. Invisible barrier removal. Global communication without boundaries.",
+    "downloadLabel": "Download Client",
+    "replayLabel": "Replay Film"
+  },
+  "defaults": {
+    "particleCount": 750,
+    "audioActive": false,
+    "interactiveMode": true,
+    "showDeveloperPanel": true
+  }
+}
