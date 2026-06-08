@@ -19,6 +19,14 @@ import { GTransToolbar } from './GTransToolbar';
 import { GTranLogo } from './GTranLogo';
 import { GamingUtterancePanel, GamingClipboardCard, type GamingUtteranceStatus } from './GamingUtterancePanel';
 import { WorkEmailRangeDemo, type WorkRangeDemoPhase } from './WorkEmailRangeDemo';
+import { publicAsset } from '../lib/publicAsset';
+
+const DISCOVERY_FUNCTION_IMAGES = [
+  'discovery-function-01.png',
+  'discovery-function-02.png',
+  'discovery-function-03.png',
+  'discovery-function-04.png',
+] as const;
 
 interface SceneOverlaysProps {
   currentScene: SceneType;
@@ -319,7 +327,13 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
     submitGamingUtterance,
   ]);
 
-  const [activeSignIdx, setActiveSignIdx] = useState<number | null>(null);
+  const [expandedDiscoverySignIdx, setExpandedDiscoverySignIdx] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (currentScene !== 'discovery') {
+      setExpandedDiscoverySignIdx(null);
+    }
+  }, [currentScene]);
 
   useEffect(() => {
     if (currentScene !== 'work') {
@@ -838,38 +852,63 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
               </div>
 
               {/* City Sign interactives */}
-              <div className="lg:col-span-7 grid grid-cols-2 gap-4">
+              <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
                 {discoverySigns.map((sign, idx) => {
-                  const isActive = activeSignIdx === idx;
+                  const isExpanded = expandedDiscoverySignIdx === idx;
                   return (
-                    <div 
+                    <div
                       key={sign.id}
-                      onMouseEnter={() => {
-                        setActiveSignIdx(idx);
-                        soundEngine.playClick();
-                      }}
-                      onMouseLeave={() => setActiveSignIdx(null)}
-                      onClick={() => {
-                        setActiveSignIdx(idx);
-                        soundEngine.playClick();
-                      }}
-                      className={`glass-panel p-6 rounded-2xl text-left cursor-pointer transition-all duration-300 border ${isActive ? SCENE_ACCENT.discovery.signCardActive : 'border-zinc-800'}`}
+                      onMouseLeave={() => setExpandedDiscoverySignIdx(null)}
+                      className={`glass-panel rounded-2xl text-left border overflow-hidden transition-colors duration-300 ${
+                        isExpanded ? SCENE_ACCENT.discovery.signCardActive : 'border-zinc-800'
+                      }`}
                     >
-                      <div className="flex justify-between items-center mb-3">
-                        <span className="font-mono text-[9px] text-zinc-500">
-                          Function {String(idx + 1).padStart(2, '0')}
-                        </span>
-                        <Compass className={`w-4 h-4 ${isActive ? `${SCENE_ACCENT.discovery.text} animate-spin` : 'text-zinc-600'}`} />
-                      </div>
-                      
-                      <div className="min-h-[44px]">
-                        <p className="text-sm font-semibold text-zinc-400 font-display italic">{sign.label}</p>
-                        
-                        <div className={`mt-2 transition-all duration-300 ${isActive ? 'opacity-100 transform translate-y-0' : 'opacity-20 transform translate-y-1'}`}>
-                          <p className="text-xs font-mono text-zinc-500 uppercase tracking-widest text-[9px] mb-0.5">Automated Scan:</p>
-                          <p className="text-sm font-bold text-white font-sans">{sign.translation}</p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setExpandedDiscoverySignIdx(idx);
+                          soundEngine.playClick();
+                        }}
+                        className="w-full p-6 text-left cursor-pointer"
+                      >
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="font-mono text-[9px] text-zinc-500">
+                            Function {idx + 1}
+                          </span>
+                          <Compass
+                            className={`w-4 h-4 ${
+                              isExpanded ? `${SCENE_ACCENT.discovery.text} animate-spin` : 'text-zinc-600'
+                            }`}
+                          />
                         </div>
-                      </div>
+
+                        <div className="min-h-[44px]">
+                          <p className="text-sm font-semibold text-zinc-300 font-display italic">{sign.label}</p>
+                          <p className="mt-2 text-sm font-bold text-white font-sans">{sign.translation}</p>
+                        </div>
+                      </button>
+
+                      <AnimatePresence initial={false}>
+                        {isExpanded && (
+                          <motion.div
+                            key="preview"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.35, ease: 'easeOut' }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-4 pb-4 pt-0">
+                              <img
+                                src={publicAsset(DISCOVERY_FUNCTION_IMAGES[idx] ?? DISCOVERY_FUNCTION_IMAGES[0])}
+                                alt=""
+                                draggable={false}
+                                className="w-full rounded-xl border border-zinc-800/80 bg-zinc-950 object-cover"
+                              />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}

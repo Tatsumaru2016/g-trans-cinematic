@@ -46,11 +46,217 @@ const WORLD_WORDS = [
 ];
 
 /** Random small / medium / large base glyph size for 3D depth variety */
+function easeInOutQuad(t: number) {
+  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+}
+
 function randomGlyphBaseSize() {
   const roll = Math.random();
   if (roll < 0.34) return 7 + Math.random() * 2.5;
   if (roll < 0.68) return 11 + Math.random() * 4;
   return 17 + Math.random() * 6;
+}
+
+/** Scene 06 — seamless depth loop for infinite warp tunnel */
+const DISCOVERY_DEPTH_MIN = -1100;
+const DISCOVERY_DEPTH_SPAN = 3900;
+const DISCOVERY_WARP_SPEED = 0.42;
+const DISCOVERY_PARTICLE_SPEED = 1.5;
+
+function wrapDiscoveryZ(z: number) {
+  const min = DISCOVERY_DEPTH_MIN;
+  const span = DISCOVERY_DEPTH_SPAN;
+  return min + ((((z - min) % span) + span) % span);
+}
+
+/** Far = wide spread, near = toward center — base cap only; per-particle lane breaks rings */
+function discoveryConvergeRadius(depthT: number, maxSpread = 960) {
+  const t = Math.max(0, Math.min(1, depthT));
+  return 12 + Math.pow(t, 1.22) * maxSpread;
+}
+
+function discoveryDepthT(z: number) {
+  return (z - DISCOVERY_DEPTH_MIN) / DISCOVERY_DEPTH_SPAN;
+}
+
+function discoveryScatterAngle(seed: number) {
+  return (seed * 2.3999632297) % (Math.PI * 2);
+}
+
+/** Fade in at outer respawn, fade out at center vanish */
+function discoveryGlyphVisibility(depthT: number) {
+  const centerFade = depthT < 0.11 ? depthT / 0.11 : 1;
+  const edgeFade = depthT > 0.9 ? Math.min(1, (1 - depthT) / 0.1) : 1;
+  return centerFade * edgeFade;
+}
+
+function discoveryGlyphWarpBoost(depthT: number) {
+  return Math.sin(Math.max(0, Math.min(1, depthT)) * Math.PI);
+}
+
+function placeDiscoveryTunnelXY(
+  angle: number,
+  z: number,
+  scatter = 0,
+  yScale = 1,
+  radiusLane = 0.5,
+) {
+  const depthT = discoveryDepthT(z);
+  const maxSpread = discoveryConvergeRadius(depthT);
+  const lane = 0.08 + (radiusLane % 1) * 1.02;
+  const laneR = maxSpread * lane;
+  const wobble =
+    Math.sin(angle * 2.9 + scatter * 11.7 + depthT * 6.3) * maxSpread * 0.18 +
+    Math.cos(angle * 5.1 + scatter * 4.3) * maxSpread * 0.1 * depthT;
+  const r = Math.max(5, laneR + wobble);
+  const ax = angle + scatter * 2.2 + Math.sin(scatter * 14.2) * 0.48;
+  const drift = Math.cos(ax * 3.8 + depthT * 4.5) * maxSpread * 0.07 * depthT;
+  return {
+    x: Math.cos(ax) * r + Math.sin(ax) * drift,
+    y: Math.sin(ax) * r * yScale + Math.cos(ax) * drift,
+    depthT,
+  };
+}
+
+/** Glyph warp burst from screen center — repeated characters, no streak lines */
+function drawDiscoveryGlyphWarp(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  time: number,
+  width: number,
+  height: number,
+  chars: readonly string[],
+) {
+  const maxR = Math.hypot(width, height) * 0.72;
+
+  const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR * 0.14);
+  glow.addColorStop(0, 'rgba(255, 248, 220, 0.06)');
+  glow.addColorStop(0.6, 'rgba(250, 204, 21, 0.015)');
+  glow.addColorStop(1, 'rgba(250, 204, 21, 0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, width, height);
+
+  const warpCount = 54;
+  for (let i = 0; i < warpCount; i++) {
+    const seed = i * 2.718281828 + (i * i * 0.019) + 0.31;
+    const baseAngle = discoveryScatterAngle(seed * 1.37);
+    const angle = baseAngle + Math.sin(time * 0.55 + seed * 2.1) * 0.42;
+    const radiusLane = 0.1 + ((seed * 19.7) % 1) * 0.98;
+    const phase = (time * (0.28 + (seed % 1) * 0.2) + seed * 0.091) % 1;
+    const flyT = phase * phase;
+    const headR = (4 + (1 - flyT) * maxR * 0.82) * radiusLane;
+    const char = chars[i % chars.length] ?? '言';
+    const trailSteps = 3;
+    const cosA = Math.cos(angle);
+    const sinA = Math.sin(angle);
+    const lateral = Math.sin(time * 0.8 + seed * 3.3) * headR * 0.11 * (1 - flyT);
+    const spawnFade = phase < 0.07 ? phase / 0.07 : 1;
+    const vanishFade = phase > 0.84 ? Math.max(0, 1 - (phase - 0.84) / 0.16) : 1;
+    const visibility = spawnFade * vanishFade * (1 - phase * 0.12);
+
+    for (let s = 0; s < trailSteps; s++) {
+      const t = s / trailSteps;
+      const r = headR * (1 + t * 0.28);
+      const alpha = visibility * (1 - t * 0.72) * 0.28;
+      if (alpha < 0.02) continue;
+
+      const fontSize = 4 + (1 - t) * (1 - flyT) * 15;
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = i % 4 === 0 ? '#FFFFFF' : i % 4 === 1 ? '#FACC15' : '#FDE68A';
+      ctx.font = `300 ${fontSize}px var(--font-display)`;
+      ctx.fillText(char, cx + cosA * r - sinA * lateral, cy + sinA * r + cosA * lateral);
+    }
+  }
+}
+
+function drawDiscoveryGlyphTrail(
+  ctx: CanvasRenderingContext2D,
+  char: string,
+  screenX: number,
+  screenY: number,
+  warpCx: number,
+  warpCy: number,
+  size: number,
+  alpha: number,
+  warpBoost: number,
+  color: string,
+) {
+  const dx = screenX - warpCx;
+  const dy = screenY - warpCy;
+  const dist = Math.hypot(dx, dy) || 1;
+  const nx = dx / dist;
+  const ny = dy / dist;
+  const trailLen = Math.min(180, (8 + warpBoost * 150) * (0.28 + size * 0.06));
+  const steps = Math.max(2, Math.floor(2 + warpBoost * 5));
+
+  for (let s = 0; s < steps; s++) {
+    const t = s / steps;
+    const fade = (1 - t) * warpBoost;
+    const gx = screenX - nx * trailLen * t * 0.88;
+    const gy = screenY - ny * trailLen * t * 0.88;
+    const gSize = Math.max(3, size * (0.32 + t * 0.68));
+
+    ctx.fillStyle = color;
+    ctx.globalAlpha = alpha * fade * 0.72;
+    ctx.font = `300 ${gSize}px var(--font-display)`;
+    ctx.fillText(char, gx, gy);
+  }
+
+  ctx.fillStyle = color;
+  ctx.globalAlpha = alpha * (0.4 + warpBoost * 0.55);
+  ctx.font = `300 ${Math.max(4, size * (0.5 + warpBoost * 0.5))}px var(--font-display)`;
+  ctx.fillText(char, screenX, screenY);
+}
+
+function createDiscoveryBuildings() {
+  const buildings = [];
+  const count = 22;
+  for (let i = 0; i < count; i++) {
+    const angle = discoveryScatterAngle(i * 1.91 + 0.33);
+    const z = DISCOVERY_DEPTH_MIN + ((i * 0.482) % 1) * DISCOVERY_DEPTH_SPAN;
+    const scatter = (i * 53) % 100 / 100;
+    const radiusLane = ((i * 41 + 11) % 100) / 100;
+    const { x, y } = placeDiscoveryTunnelXY(angle, z, scatter, 0.82, radiusLane);
+    const lane = i % 8;
+    buildings.push({
+      x,
+      y,
+      z,
+      angle,
+      scatter,
+      w: 80 + (lane % 3) * 38 + (i % 5) * 12,
+      h: 280 + (lane % 4) * 90 + (i % 7) * 28,
+      d: 100 + (lane % 3) * 45,
+      labels: ['標識', '地図', 'メニュー', '方向', 'CAFE', 'MUSEUM', 'STATION', 'EXIT'],
+    });
+  }
+  return buildings;
+}
+
+function initDiscoveryWarpParticles(particles: Particle3D[]) {
+  particles.forEach((p, idx) => {
+    const angle = discoveryScatterAngle(idx * 1.07 + 0.19);
+    const scatter = ((idx * 73) % 100) / 100;
+    const radiusLane = ((idx * 41 + 7) % 100) / 100;
+    const z =
+      DISCOVERY_DEPTH_MIN +
+      (((idx * 0.6180339887) % 1) * 0.9 + (idx % 17) * 0.005) * DISCOVERY_DEPTH_SPAN;
+    const { x, y, depthT } = placeDiscoveryTunnelXY(angle, z, scatter, 0.88, radiusLane);
+
+    p.x = x;
+    p.y = y;
+    p.z = z;
+    p.tx = x;
+    p.ty = y;
+    p.tz = z;
+    p.phase = angle;
+    p.noiseX = scatter * 97;
+    p.noiseY = ((idx * 41 + 7) % 100);
+    p.word = undefined;
+    p.char = MULTILINGUAL_CHARS[idx % MULTILINGUAL_CHARS.length] ?? '言';
+    p.tAlpha = (0.14 + depthT * 0.36) * discoveryGlyphVisibility(depthT);
+  });
 }
 
 // Final scene — red, blue, yellow, green, purple, sky (水色)
@@ -83,25 +289,22 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
   const nextOceanSpawnRef = useRef<number>(0);
 
   // Floating city buildings matrix for Scene 06 (Discovery)
-  const cityBuildings = useRef<Array<{ x: number; y: number; z: number; w: number; h: number; d: number; labels: string[] }>>([]);
+  const cityBuildings = useRef<
+    Array<{
+      x: number;
+      y: number;
+      z: number;
+      angle: number;
+      scatter: number;
+      w: number;
+      h: number;
+      d: number;
+      labels: string[];
+    }>
+  >([]);
 
   useEffect(() => {
-    // Generate city blocks for Scene 06 once
-    const buildings = [];
-    for (let i = 0; i < 40; i++) {
-      buildings.push({
-        x: (Math.random() - 0.5) * 1600,
-        y: 250, // Street ground
-        z: Math.random() * 3000 - 1500,
-        w: 80 + Math.random() * 120,
-        h: 300 + Math.random() * 450,
-        d: 100 + Math.random() * 200,
-        labels: [
-          '標識', '地図', 'メニュー', '方向', 'CAFE', 'MUSEUM', 'STATION', 'EXIT'
-        ]
-      });
-    }
-    cityBuildings.current = buildings;
+    cityBuildings.current = createDiscoveryBuildings();
   }, []);
 
   useEffect(() => {
@@ -181,6 +384,11 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
       sceneTimeRef.current = 0;
     } else if (currentScene === 'future' && prevSceneRef.current !== 'future') {
       initializeParticles(particleCount);
+      sceneTimeRef.current = 0;
+    } else if (currentScene === 'discovery' && prevSceneRef.current !== 'discovery') {
+      initializeParticles(particleCount);
+      initDiscoveryWarpParticles(particlesRef.current);
+      cityBuildings.current = createDiscoveryBuildings();
       sceneTimeRef.current = 0;
     }
     prevSceneRef.current = currentScene;
@@ -326,14 +534,25 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
           }
 
           case 'breakthrough': {
-            // Radiant burst held in place — shimmer without fade or runaway drift
-            const theta = (idx / maxCount) * Math.PI * 2 + p.noiseX;
-            const radialForce = 650 + (idx % 9) * 110;
-            const shimmerX = Math.sin(time * 1.15 + p.phase) * 14;
-            const shimmerY = Math.cos(time * 1.05 + p.phase) * 14;
-            p.tx = Math.cos(theta) * radialForce + shimmerX;
-            p.ty = Math.sin(theta) * radialForce + shimmerY;
-            p.tz = (idx % 14) * 90 - 480 + Math.sin(time * 0.8 + p.phase) * 20;
+            const upperHalf = idx % 2 === 0;
+            const slot = Math.floor(idx / 2);
+            const slotsPerBand = Math.max(1, Math.ceil(maxCount / 2));
+            const bandSlot = (slot % slotsPerBand) / slotsPerBand;
+            const cycle = 3200;
+            const offset = (slot * 211 + p.noiseX * 12) % cycle;
+            const flowSpeed = upperHalf ? 172 : 225;
+            const flowT = ((time * flowSpeed + offset) % cycle) / cycle;
+            const flow = easeInOutQuad(flowT) * cycle;
+
+            if (upperHalf) {
+              p.tx = flow - cycle * 0.55;
+              p.ty = -270 + bandSlot * 210 + Math.sin(time * 0.85 + p.phase) * 12;
+            } else {
+              p.tx = cycle * 0.55 - flow;
+              p.ty = 70 + bandSlot * 210 + Math.cos(time * 0.78 + p.phase) * 12;
+            }
+
+            p.tz = (idx % 12) * 82 - 410 + Math.sin(time * 0.6 + p.phase) * 20;
             p.tAlpha = 0.58 + Math.sin(p.phase + idx * 0.06) * 0.32;
             break;
           }
@@ -371,19 +590,16 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
           }
 
           case 'discovery': {
-            // Arrange some particles along the buildings frame wireframe
-            const val = idx % 3;
-            if (val === 0) {
-              // Floating info labels
-              p.tAlpha = 0.45;
-            } else {
-              // Moving starfields simulating high speed flight across neon roads
-              p.tx = (Math.cos(idx * 3) * 750);
-              p.ty = (Math.sin(idx * 7) * 450);
-              p.tz = p.tz - 16;
-              if (p.tz < -1000) p.tz = 1200; // recycle
-              p.tAlpha = 0.6;
-            }
+            p.z -= DISCOVERY_PARTICLE_SPEED;
+            p.z = wrapDiscoveryZ(p.z);
+            p.tz = p.z;
+
+            const scatter = (p.noiseX % 97) / 97;
+            const radiusLane = (p.noiseY % 100) / 100;
+            const { x, y, depthT } = placeDiscoveryTunnelXY(p.phase, p.z, scatter, 0.88, radiusLane);
+            p.tx = x;
+            p.ty = y;
+            p.tAlpha = (0.14 + depthT * 0.36) * discoveryGlyphVisibility(depthT);
             break;
           }
 
@@ -446,8 +662,17 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
               ? 0.06
               : currentScene === 'future'
                 ? 0.14
-                : p.speed;
-        if (currentScene !== 'ocean') {
+                : currentScene === 'discovery'
+                  ? 0.42
+                  : p.speed;
+        if (currentScene === 'discovery') {
+          p.x = p.tx;
+          p.y = p.ty;
+        } else if (currentScene === 'breakthrough') {
+          p.x += (p.tx - p.x) * 0.5;
+          p.y += (p.ty - p.y) * 0.24;
+          p.z += (p.tz - p.z) * 0.24;
+        } else if (currentScene !== 'ocean') {
           p.x += (p.tx - p.x) * lerpSpeed;
           p.y += (p.ty - p.y) * lerpSpeed;
           p.z += (p.tz - p.z) * lerpSpeed;
@@ -488,42 +713,45 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
         nextOceanSpawnRef.current = 0;
       }
 
+      const discoveryRenderFov =
+        currentScene === 'discovery' ? fov + Math.sin(time * 0.045) * 140 : fov;
+
       // Draw 3D Wireframe outline city for Discovery (Scene 06)
       if (currentScene === 'discovery') {
-        ctx.strokeStyle = 'rgba(250, 204, 21, 0.035)';
-        ctx.lineWidth = 1;
-        
-        cityBuildings.current.forEach((b) => {
-          // Slowly move building z-depth to simulate moving forward
-          b.z -= 4.5;
-          if (b.z < -1000) {
-            b.z = 2000;
-            b.x = (Math.random() - 0.5) * 1600;
-          }
+        const warpCx = cx + mouseParallaxX * 0.05;
+        const warpCy = cy + mouseParallaxY * 0.05;
 
-          // Project corners to 3D perspective
-          const projZ = b.z + fov;
-          if (projZ > 30) {
-            const scale = fov / projZ;
-            const screenX = cx + (b.x + mouseParallaxX) * scale;
-            const screenY = cy + (b.y + mouseParallaxY) * scale;
-            const sW = b.w * scale;
-            const sH = b.h * scale;
+        drawDiscoveryGlyphWarp(ctx, warpCx, warpCy, time, width, height, MULTILINGUAL_CHARS);
 
-            // Simple building drawing (roof and facade lines)
-            ctx.strokeRect(screenX - sW / 2, screenY - sH, sW, sH);
+        cityBuildings.current.forEach((b, bi) => {
+          if (bi % 4 !== 0) return;
 
-            // Vertical neon grid wireframes
-            ctx.beginPath();
-            ctx.moveTo(screenX - sW / 2, screenY);
-            ctx.lineTo(screenX - sW / 2 + sW * 0.15, screenY - sH);
-            ctx.stroke();
+          b.z -= DISCOVERY_WARP_SPEED;
+          b.z = wrapDiscoveryZ(b.z);
 
-            // Render floating translated contextual labels inside buildings bounds occasionally
-            if (b.z < 800 && b.z > 100) {
-              ctx.font = `italic 300 ${10 * scale}px var(--font-mono)`;
-              ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-              ctx.fillText(b.labels[0], screenX - sW / 3, screenY - sH / 1.7);
+          const { x, y } = placeDiscoveryTunnelXY(
+            b.angle,
+            b.z,
+            b.scatter,
+            0.82,
+            ((bi * 41 + 11) % 100) / 100,
+          );
+          b.x = x;
+          b.y = y;
+
+          const projZ = b.z + discoveryRenderFov;
+          if (projZ > 30 && projZ < discoveryRenderFov + DISCOVERY_DEPTH_SPAN * 0.55) {
+            const scale = discoveryRenderFov / projZ;
+            const screenX = warpCx + b.x * scale;
+            const screenY = warpCy + b.y * scale;
+            const depthT = discoveryDepthT(b.z);
+
+            if (b.z < 820 && b.z > 80) {
+              ctx.font = `300 ${Math.max(8, 10 * scale)}px var(--font-mono)`;
+              ctx.fillStyle = `rgba(255, 255, 255, ${0.08 + depthT * 0.12})`;
+              ctx.globalAlpha = 0.35 + depthT * 0.25;
+              ctx.fillText(b.labels[bi % b.labels.length] ?? 'EXIT', screenX, screenY);
+              ctx.globalAlpha = 1;
             }
           }
         });
@@ -566,13 +794,25 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
       }
 
       // 4. DRAW ELEMENT PARTICLES
+      const renderFov = discoveryRenderFov;
+      const warpCx = cx + sceneParallaxX * 0.05;
+      const warpCy = cy + sceneParallaxY * 0.05;
+
       particles.forEach((p, idx) => {
-        const projZ = p.z + fov;
+        const projZ = p.z + renderFov;
         if (projZ <= 10) return; // behind the camera clip
 
-        const scale = Math.min(currentScene === 'ocean' ? 2.2 : Infinity, fov / projZ);
-        const screenX = cx + (p.x + sceneParallaxX) * scale;
-        const screenY = cy + (p.y + sceneParallaxY) * scale;
+        if (currentScene === 'discovery' && idx % 2 !== 0) return;
+
+        const scale = Math.min(currentScene === 'ocean' ? 2.2 : Infinity, renderFov / projZ);
+        const screenX =
+          currentScene === 'discovery'
+            ? warpCx + p.x * scale
+            : cx + (p.x + sceneParallaxX) * scale;
+        const screenY =
+          currentScene === 'discovery'
+            ? warpCy + p.y * scale
+            : cy + (p.y + sceneParallaxY) * scale;
 
         // Skip items outside the viewpoint box
         if (screenX < -200 || screenX > width + 200 || screenY < -200 || screenY > height + 200) {
@@ -591,12 +831,26 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
         // Render characters
         ctx.globalAlpha = p.alpha;
 
-        if (p.word && currentScene !== 'barrier' && currentScene !== 'future' && currentScene !== 'ocean') {
+        if (currentScene === 'discovery') {
+          const depthT = discoveryDepthT(p.z);
+          const warpBoost = discoveryGlyphWarpBoost(depthT);
+          drawDiscoveryGlyphTrail(
+            ctx,
+            p.char,
+            screenX,
+            screenY,
+            warpCx,
+            warpCy,
+            size,
+            p.alpha,
+            warpBoost,
+            p.color,
+          );
+        } else if (p.word && currentScene !== 'barrier' && currentScene !== 'future' && currentScene !== 'ocean') {
           // Render elegant full words for conceptual visual elements (Work, Connection, etc.)
           ctx.font = `600 ${size * 0.9}px var(--font-sans)`;
           ctx.fillText(p.word, screenX, screenY);
         } else {
-          // Render single floating language glyphs
           ctx.font = `300 ${size}px var(--font-display)`;
           ctx.fillText(p.char, screenX, screenY);
         }
