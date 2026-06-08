@@ -263,12 +263,14 @@ export default function App() {
       {/* Bottom-right controls */}
       <div className="absolute right-3 bottom-3 sm:right-6 sm:bottom-6 z-50 pointer-events-auto flex flex-wrap items-center justify-end gap-2 max-w-[calc(100vw-1.5rem)]">
         <LanguageSelector />
-        <a
-          href="#/admin"
-          className="px-3 py-1.5 rounded-lg border border-zinc-800 text-[10px] font-mono uppercase tracking-wide text-zinc-500 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"
-        >
-          {t('common.manage')}
-        </a>
+        {import.meta.env.DEV && (
+          <a
+            href="#/admin"
+            className="px-3 py-1.5 rounded-lg border border-zinc-800 text-[10px] font-mono uppercase tracking-wide text-zinc-500 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"
+          >
+            {t('common.manage')}
+          </a>
+        )}
         <button
           onClick={() => {
             soundEngine.playClick();
