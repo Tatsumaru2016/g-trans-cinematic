@@ -118,3 +118,56 @@ html.admin-view #root {
 .pulse-glow-border {
   animation: pulseGlow 4s infinite ease-in-out;
 }
+
+.gtran-logo-scan-sweep {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gtranScanSweep 2.6s linear infinite;
+}
+
+.gtran-logo-scan-sweep-trail {
+  animation-duration: 2.6s;
+  filter: drop-shadow(0 0 3px rgba(0, 229, 255, 0.55));
+}
+
+@keyframes gtranScanSweep {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+.gtran-logo-g-dark {
+  animation: gtranLetterGlowDark 2.8s ease-in-out infinite;
+}
+
+.gtran-logo-g-light {
+  animation: gtranLetterGlowLight 2.8s ease-in-out infinite;
+}
+
+@keyframes gtranLetterGlowDark {
+  0%,
+  100% {
+    opacity: 0.88;
+    filter: drop-shadow(0 0 3px rgba(0, 229, 255, 0.25));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.75))
+      drop-shadow(0 0 14px rgba(59, 130, 246, 0.35));
+  }
+}
+
+@keyframes gtranLetterGlowLight {
+  0%,
+  100% {
+    opacity: 0.86;
+    filter: drop-shadow(0 0 2px rgba(2, 132, 199, 0.2));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 7px rgba(2, 132, 199, 0.55));
+  }
+}
