@@ -7,6 +7,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
 import { useLocale } from '../context/LocaleContext';
+import { publicAsset } from '../lib/publicAsset';
 
 /** Measured from gtran-toolbar.png (290×36) */
 const TOOLBAR = { width: 290, height: 36 };
@@ -81,7 +82,7 @@ export const GTransToolbar: React.FC<GTransToolbarProps> = ({
           style={{ aspectRatio: `${TOOLBAR.width} / ${TOOLBAR.height}` }}
         >
           <img
-            src="/gtran-toolbar.png"
+            src={publicAsset('gtran-toolbar.png')}
             alt="G.trans toolbar"
             width={290}
             height={36}

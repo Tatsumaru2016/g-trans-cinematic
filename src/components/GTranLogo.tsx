@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { useLocale } from '../context/LocaleContext';
+import { publicAsset } from '../lib/publicAsset';
 
 interface GTranLogoProps {
   size?: number;
@@ -28,7 +29,7 @@ export const GTranLogo: React.FC<GTranLogoProps> = ({
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <img
-        src="/gtran-logo.png"
+        src={publicAsset('gtran-logo.png')}
         alt={label}
         width={size}
         height={size}
