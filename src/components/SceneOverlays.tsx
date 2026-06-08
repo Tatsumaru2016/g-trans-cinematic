@@ -128,6 +128,7 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
   const [gamingUtteranceStatus, setGamingUtteranceStatus] = useState<GamingUtteranceStatus>('idle');
   const [gamingClipboardAnchor, setGamingClipboardAnchor] = useState<'panel' | 'chat' | null>(null);
   const gamingTranslateTimeoutRef = useRef<number | null>(null);
+  const gamingTypingTimeoutRef = useRef<number | null>(null);
   const chatHighlightTimeoutRef = useRef<number | null>(null);
   const chatLogRef = useRef<HTMLDivElement>(null);
   const [highlightedChatMessageId, setHighlightedChatMessageId] = useState<string | null>(null);
@@ -144,7 +145,34 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
       window.clearTimeout(gamingTranslateTimeoutRef.current);
       gamingTranslateTimeoutRef.current = null;
     }
+    if (gamingTypingTimeoutRef.current !== null) {
+      window.clearTimeout(gamingTypingTimeoutRef.current);
+      gamingTypingTimeoutRef.current = null;
+    }
   };
+
+  const startGamingInputTyping = useCallback((fullText: string) => {
+    if (gamingTypingTimeoutRef.current !== null) {
+      window.clearTimeout(gamingTypingTimeoutRef.current);
+      gamingTypingTimeoutRef.current = null;
+    }
+    setGamingInput('');
+    let index = 0;
+
+    const tick = () => {
+      index += 1;
+      setGamingInput(fullText.slice(0, index));
+      soundEngine.playDemoType(index);
+      if (index >= fullText.length) {
+        gamingTypingTimeoutRef.current = null;
+        return;
+      }
+      gamingTypingTimeoutRef.current = window.setTimeout(tick, 46);
+    };
+
+    void soundEngine.primeDemoAudio();
+    gamingTypingTimeoutRef.current = window.setTimeout(tick, 280);
+  }, []);
 
   const resetGamingUtteranceUI = useCallback(() => {
     clearGamingTimeouts();
@@ -182,11 +210,11 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
 
       gamingTranslateTimeoutRef.current = window.setTimeout(() => {
         setGamingClipboardAnchor('chat');
-        setNewMessageText(translated);
         setGamingUtteranceStatus('at-input');
         soundEngine.playDemoStep('move');
 
         gamingTranslateTimeoutRef.current = window.setTimeout(() => {
+          setNewMessageText(translated);
           setGamingClipboardAnchor(null);
           soundEngine.playDemoStep('paste');
           gamingTranslateTimeoutRef.current = null;
@@ -207,9 +235,9 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
     void soundEngine.primeDemoAudio().then(() => {
       soundEngine.playDemoClick();
       setGamingPanelOpen(true);
-      setGamingInput(config.gamingUtterance.sampleInput);
       setGamingUtteranceStatus('idle');
       setGamingClipboardAnchor(null);
+      startGamingInputTyping(config.gamingUtterance.sampleInput);
     });
   };
 
@@ -221,35 +249,51 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
     return () => window.clearTimeout(t);
   }, [gamingPanelOpen]);
 
-  const sendGamingChatMessage = () => {
-    const text = newMessageText.trim();
-    if (!text) return;
+  const postGamingChatMessage = useCallback(
+    (text: string) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
 
-    void soundEngine.primeDemoAudio().then(() => {
-      soundEngine.playDemoClick();
-      const original =
-        gamingInput.trim() || config.gamingUtterance.sampleInput;
-      const newMsg: ChatMessage = {
-        id: Math.random().toString(),
-        lang: 'ENG',
-        username: t('gaming.playerUsername'),
-        original,
-        translated: text,
-        color: 'text-emerald-400',
-        active: true,
-      };
-      setChatMessages((prev) => [...prev, newMsg]);
-      soundEngine.playDemoStep('message');
-      setNewMessageText('');
-      clearChatHighlight();
-      setHighlightedChatMessageId(newMsg.id);
-      resetGamingUtteranceUI();
-      chatHighlightTimeoutRef.current = window.setTimeout(() => {
-        chatHighlightTimeoutRef.current = null;
-        endGamingUtteranceDemo();
-      }, 3500);
-    });
-  };
+      void soundEngine.primeDemoAudio().then(() => {
+        soundEngine.playDemoClick();
+        const original =
+          gamingInput.trim() || config.gamingUtterance.sampleInput;
+        const newMsg: ChatMessage = {
+          id: Math.random().toString(),
+          lang: 'ENG',
+          username: t('gaming.playerUsername'),
+          original,
+          translated: trimmed,
+          color: 'text-emerald-400',
+          active: true,
+        };
+        setChatMessages((prev) => [...prev, newMsg]);
+        soundEngine.playDemoStep('message');
+        setNewMessageText('');
+        clearChatHighlight();
+        setHighlightedChatMessageId(newMsg.id);
+        resetGamingUtteranceUI();
+        chatHighlightTimeoutRef.current = window.setTimeout(() => {
+          chatHighlightTimeoutRef.current = null;
+          endGamingUtteranceDemo();
+        }, 3500);
+      });
+    },
+    [
+      gamingInput,
+      config.gamingUtterance.sampleInput,
+      t,
+      resetGamingUtteranceUI,
+      endGamingUtteranceDemo,
+    ],
+  );
+
+  const triggerGamingSend = useCallback(() => {
+    postGamingChatMessage(newMessageText);
+  }, [newMessageText, postGamingChatMessage]);
+
+  const showGamingSendHint =
+    gamingUtteranceStatus === 'at-input' && newMessageText.trim().length > 0;
 
   useEffect(() => {
     const el = chatLogRef.current;
@@ -258,14 +302,22 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
   }, [chatMessages.length]);
 
   useEffect(() => {
-    if (!gamingPanelOpen || gamingUtteranceStatus !== 'idle' || !gamingInput.trim()) return;
+    if (!gamingPanelOpen || gamingUtteranceStatus !== 'idle') return;
+    const full = config.gamingUtterance.sampleInput.trim();
+    if (!full || gamingInput.trim() !== full) return;
 
     const t = window.setTimeout(() => {
       submitGamingUtterance();
     }, 700);
 
     return () => window.clearTimeout(t);
-  }, [gamingPanelOpen, gamingUtteranceStatus, gamingInput, submitGamingUtterance]);
+  }, [
+    gamingPanelOpen,
+    gamingUtteranceStatus,
+    gamingInput,
+    config.gamingUtterance.sampleInput,
+    submitGamingUtterance,
+  ]);
 
   const [activeSignIdx, setActiveSignIdx] = useState<number | null>(null);
 
@@ -679,7 +731,7 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
                   <div className="mt-4 pt-4 border-t border-zinc-800">
                     <div
                       className={`relative flex items-center space-x-2 ${
-                        gamingUtteranceStatus === 'at-input' && newMessageText.trim() ? 'pb-9' : ''
+                        showGamingSendHint ? 'pb-11' : ''
                       }`}
                     >
                     {gamingClipboardAnchor === 'chat' && (
@@ -696,7 +748,7 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
                       readOnly
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' && newMessageText.trim()) {
-                          sendGamingChatMessage();
+                          triggerGamingSend();
                         }
                       }}
                       className={`relative z-[1] flex-1 bg-zinc-900 border rounded-lg px-3 py-2 text-xs focus:outline-none text-white font-sans cursor-default ${
@@ -705,18 +757,28 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
                           : 'border-zinc-800 focus:border-violet-500'
                       }`}
                     />
-                    <div className="relative shrink-0">
-                      <button
+                    <div className="relative shrink-0 flex flex-col items-center">
+                      <motion.button
                         type="button"
-                        onClick={sendGamingChatMessage}
+                        onClick={triggerGamingSend}
                         disabled={!newMessageText.trim()}
                         aria-label={t('utterance.sendMessage')}
-                        className="relative z-[1] p-2 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-white transition-all"
+                        animate={
+                          showGamingSendHint
+                            ? { scale: [1, 0.82, 1] }
+                            : { scale: 1 }
+                        }
+                        transition={
+                          showGamingSendHint
+                            ? { duration: 1.1, repeat: Infinity, ease: 'easeInOut' }
+                            : { duration: 0.15 }
+                        }
+                        className="relative z-[1] p-2 bg-violet-600 hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-white"
                       >
                         <Send className="w-3.5 h-3.5" />
-                      </button>
-                      {gamingUtteranceStatus === 'at-input' && newMessageText.trim() && (
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 pointer-events-none flex flex-col items-center">
+                      </motion.button>
+                      {showGamingSendHint && (
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 pointer-events-none flex flex-col items-center">
                           <motion.div
                             initial={{ opacity: 0, y: 4 }}
                             animate={{ opacity: 1, y: 0 }}

@@ -228,8 +228,9 @@ function addInteriorPoints(
   scale: number,
   inside: (x: number, y: number) => boolean,
   bounds: { xMin: number; xMax: number; yMin: number; yMax: number },
+  spacingScale = 1,
 ) {
-  const spacing = Math.max(3, Math.round(8.5 - scale * 2.3));
+  const spacing = Math.max(2.5, Math.round((8.5 - scale * 2.3) / spacingScale));
   for (let x = bounds.xMin; x <= bounds.xMax; x += spacing) {
     for (let y = bounds.yMin; y <= bounds.yMax; y += spacing) {
       if (!inside(x, y)) continue;
@@ -237,6 +238,28 @@ function addInteriorPoints(
       if (!crowded) points.push([x, y]);
     }
   }
+}
+
+function whaleHalfHeightAt(x: number) {
+  if (x >= 40) return 5 + (x - 40) * 0.18;
+  if (x >= 14) return 10 + (x - 14) * 0.05;
+  if (x >= -14) return 11 - Math.abs(x - 14) * 0.06;
+  if (x >= -42) return 8.5 - (Math.abs(x) - 14) * 0.1;
+  const tailT = Math.min(1, (-x - 42) / 12);
+  return 4 + tailT * 10;
+}
+
+function isInsideWhaleBody(x: number, y: number) {
+  if (x > 52 || x < -54) return false;
+  return Math.abs(y) <= whaleHalfHeightAt(x);
+}
+
+function buildWhaleBody(scale: number, isRare: boolean) {
+  const points: [number, number][] = [...BODY.whale];
+  const density = isRare ? 1.32 : 1.12;
+  addInteriorPoints(points, scale, isInsideWhaleBody, { xMin: -54, xMax: 52, yMin: -15, yMax: 15 }, density);
+  addInteriorPoints(points, scale * 1.08, isInsideWhaleBody, { xMin: -28, xMax: 44, yMin: -11, yMax: 11 }, density * 1.04);
+  return points;
 }
 
 function isInsideSquidMantle(x: number, y: number) {
@@ -271,9 +294,10 @@ function buildOctopusBody(scale: number): [number, number][] {
   return points;
 }
 
-function bodyPointsFor(kind: OceanCreatureKind, scale: number): [number, number][] {
+function bodyPointsFor(kind: OceanCreatureKind, scale: number, isRareWhale = false): [number, number][] {
   if (kind === 'squid') return buildSquidBody(scale);
   if (kind === 'octopus') return buildOctopusBody(scale);
+  if (kind === 'whale') return buildWhaleBody(scale, isRareWhale);
   return BODY[kind];
 }
 
@@ -292,6 +316,17 @@ function randomGlyphSizeTier() {
 
 function assignGlyphScales(count: number) {
   return Array.from({ length: count }, () => randomGlyphSizeTier());
+}
+
+/** Smaller on-screen glyphs fade out; larger ones stay slightly translucent */
+function oceanGlyphAlphaFromSize(screenSize: number, metaAlpha: number, rareFactor = 1) {
+  const minSize = 4;
+  const refSize = 34;
+  const t = Math.min(1, Math.max(0, (screenSize - minSize) / (refSize - minSize)));
+  const eased = t * t * (3 - 2 * t);
+  const minAlpha = 0.16;
+  const maxAlpha = 0.68;
+  return Math.min(0.78, metaAlpha * (minAlpha + eased * (maxAlpha - minAlpha)) * rareFactor);
 }
 
 /** Map depth (z) to visual scale — lower z = closer = larger */
@@ -389,7 +424,7 @@ export function createOceanCreature(
     ? meta.size * (2.15 + Math.random() * 0.55)
     : meta.size * depthScale * jitter;
   const speedFactor = isRareWhale ? 0.72 : 0.5 + depthScale * 0.55;
-  const points = bodyPointsFor(kind, scale);
+  const points = bodyPointsFor(kind, scale, isRareWhale);
   const chars = assignGlyphChars(points, glyphPool);
   const glyphScales = assignGlyphScales(points.length);
 
@@ -551,7 +586,6 @@ export function drawOceanCreatures(
   sorted.forEach((creature) => {
     const meta = KIND_META[creature.kind];
     const body = creature.points;
-    const depthScale = depthScaleFromZ(creature.z);
     const isRareWhale = creature.kind === 'whale' && creature.isRare;
     const isRareDolphin = creature.kind === 'dolphin' && creature.isRare;
     const isWhale = creature.kind === 'whale';
@@ -601,11 +635,11 @@ export function drawOceanCreatures(
       const glyphScale = (creature.glyphScales[i] ?? 1) * (isSquid && isSquidHead(lx, ly) ? 1.12 : isOctopus && isInsideOctopusHead(lx, ly) ? 1.14 : 1);
       const baseGlyph = isRareWhale ? 12 : creature.kind === 'whale' ? 10 : isSquid || isOctopus ? 8.5 : 9;
       const size = Math.max(5, baseGlyph * projScale * creature.scale * glyphScale * 0.92);
-      const alpha =
-        meta.alpha *
-        (0.38 + depthScale * 0.58) *
-        (0.82 + creature.scale * 0.12) *
-        (isRareWhale ? 0.96 : isRareDolphin ? 0.98 : 1);
+      const alpha = oceanGlyphAlphaFromSize(
+        size,
+        meta.alpha,
+        isRareWhale ? 0.96 : isRareDolphin ? 0.98 : 1,
+      );
 
       const palette = isRareWhale
         ? RARE_WHALE_COLORS
