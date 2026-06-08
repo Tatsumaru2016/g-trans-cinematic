@@ -27,11 +27,15 @@ export function formatCustomBackupFilename(date = new Date()) {
 
 export async function saveProjectConfigBackup(
   config: CinematicConfig,
+  opts: { full?: boolean } = {},
 ): Promise<{ ok: boolean; path?: string }> {
   try {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (opts.full) headers['x-backup-mode'] = 'full';
+
     const res = await fetch(PROJECT_BACKUP_API, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify(config, null, 2),
     });
     if (!res.ok) return { ok: false };

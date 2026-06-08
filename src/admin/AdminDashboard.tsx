@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Archive,
   Download,
@@ -35,6 +35,31 @@ import { useLocale } from '../context/LocaleContext';
 import type { FinalCta } from '../config/defaultCinematicConfig';
 
 type EditLocale = 'en' | ContentLocale;
+
+const ADMIN_SCENE_KEY = 'gtrans-admin-active-scene';
+const ADMIN_LOCALE_KEY = 'gtrans-admin-active-locale';
+
+function loadStoredScene(): SceneType {
+  try {
+    const saved = sessionStorage.getItem(ADMIN_SCENE_KEY);
+    if (saved && SCENE_ORDER.includes(saved as SceneType)) return saved as SceneType;
+  } catch {
+    /* ignore */
+  }
+  return 'ocean';
+}
+
+function loadStoredEditLocale(): EditLocale {
+  try {
+    const saved = sessionStorage.getItem(ADMIN_LOCALE_KEY);
+    if (saved === 'en' || CONTENT_LOCALES.some(({ code }) => code === saved)) {
+      return saved as EditLocale;
+    }
+  } catch {
+    /* ignore */
+  }
+  return 'en';
+}
 
 const EDIT_LOCALE_TABS: { code: EditLocale; label: string }[] = [
   { code: 'en', label: 'English' },
@@ -86,11 +111,19 @@ export default function AdminDashboard() {
     importConfig,
   } = useCinematicConfig();
   const { t } = useLocale();
-  const [activeScene, setActiveScene] = useState<SceneType>('ocean');
-  const [activeEditLocale, setActiveEditLocale] = useState<EditLocale>('en');
+  const [activeScene, setActiveScene] = useState<SceneType>(loadStoredScene);
+  const [activeEditLocale, setActiveEditLocale] = useState<EditLocale>(loadStoredEditLocale);
   const [toast, setToast] = useState('');
   const [backups, setBackups] = useState<BackupEntry[]>(() => loadBackupHistory());
   const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    sessionStorage.setItem(ADMIN_SCENE_KEY, activeScene);
+  }, [activeScene]);
+
+  useEffect(() => {
+    sessionStorage.setItem(ADMIN_LOCALE_KEY, activeEditLocale);
+  }, [activeEditLocale]);
 
   const baseScene = config.scenes[activeScene];
   const localeScene =
@@ -149,7 +182,7 @@ export default function AdminDashboard() {
   const handleBackup = async () => {
     createBackup(config);
     downloadConfigBackup(config);
-    const disk = await saveProjectConfigBackup(config);
+    const disk = await saveProjectConfigBackup(config, { full: true });
     setBackups(loadBackupHistory());
     notify(disk.ok ? t('admin.backedUpDisk') : t('admin.backedUp'));
   };
@@ -225,7 +258,7 @@ export default function AdminDashboard() {
               onClick={() => {
                 if (confirm('すべての設定を初期値に戻しますか？\n（現在の設定は自動バックアップされます）')) {
                   createBackup(config);
-                  void saveProjectConfigBackup(config);
+                  void saveProjectConfigBackup(config, { full: true });
                   setBackups(loadBackupHistory());
                   resetConfig();
                   notify('初期設定にリセットしました（直前の設定は履歴に保存済み）');

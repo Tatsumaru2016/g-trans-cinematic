@@ -6,7 +6,7 @@
       "number": "01",
       "navTitle": "Sea of ​​Language",
       "labLabel": "Sea of ​​Language",
-      "badge": "Scene  1 : Sea of ​​Language",
+      "badge": "Scene 1 : Sea of ​​Language",
       "title": "Swimming through the sea of ​​language.",
       "body": "Have you ever felt overwhelmed and given up, swallowed up by the sea of ​​languages?\nEven if you only understand one language,\nyou might be able to swim through it successfully from now on.",
       "ctaLabel": "",
@@ -17,7 +17,7 @@
       "number": "02",
       "navTitle": "Language barrier ",
       "labLabel": "Language barrier ",
-      "badge": "Scene 2 : Language barrier ",
+      "badge": "Scene 02 : Language barrier ",
       "title": "The language barrier is no longer there.",
       "titleAccent": "",
       "body": "Having swum through the sea of ​​languages, you now face a language barrier.\nAll that remains is the courage to take that first step.",
@@ -26,9 +26,9 @@
     "breakthrough": {
       "enabled": true,
       "number": "03",
-      "navTitle": "Everyday life",
-      "labLabel": "Everyday life",
-      "badge": "Scene 3 : In Everyday life",
+      "navTitle": "Situations : Everyday life",
+      "labLabel": "Situations : Everyday life",
+      "badge": "Scene 03 : In Everyday life",
       "title": "In Everyday life ",
       "titleAccent": "A little help.",
       "body": "\"What does that say?\" Curious, but I'll do it...\"\nIn those moments, target the unfamiliar part with one button and translate."
@@ -36,9 +36,9 @@
     "work": {
       "enabled": true,
       "number": "04",
-      "navTitle": "Work",
-      "labLabel": "Work",
-      "badge": "Scene 4 : In Work",
+      "navTitle": "Situations :// Work",
+      "labLabel": "Situations :// Work",
+      "badge": "Scene 04 // In Work",
       "title": "Easy to use",
       "titleAccent": "even for work.",
       "body": "A compact UI design that won't get in the way even when translating in a work setting.\nYou can directly translate only the parts you need.",
@@ -47,9 +47,9 @@
     "gaming": {
       "enabled": true,
       "number": "05",
-      "navTitle": "Gaming",
-      "labLabel": "Gaming",
-      "badge": "Scene 5 : In Gaming",
+      "navTitle": "Situations :// Gaming",
+      "labLabel": "Situations :// Gaming",
+      "badge": "Scene 0５ // In Gaming",
       "title": "Play with the ",
       "titleAccent": "world.",
       "body": "Even with different languages, it instantly translates and translates spoken language, enabling smooth conversation.\nExpand your communication horizons and try out various games from around the world."
@@ -57,9 +57,9 @@
     "discovery": {
       "enabled": true,
       "number": "06",
-      "navTitle": "Function Overview",
-      "labLabel": "Function Overview",
-      "badge": "Scene 06 : Function Overview",
+      "navTitle": "://Function Overview",
+      "labLabel": "://Function Overview",
+      "badge": "Scene 06 //  Function Overview",
       "title": "Function Overview",
       "titleAccent": "",
       "body": "It has four basic functions:\nRange translation function, text translation function, image translation function, and speech translation function"
@@ -88,9 +88,9 @@
     "future": {
       "enabled": true,
       "number": "09",
-      "navTitle": "G.trans",
-      "labLabel": "G.trans",
-      "badge": "Scene 9: G.trans",
+      "navTitle": "://G.trans",
+      "labLabel": "://G.trans",
+      "badge": "Scene 09 // G.trans",
       "title": "Communication is moving forward.",
       "titleAccent": "Into the vast ocean of language!",
       "body": "All that's left is to take that first step.",
@@ -231,50 +231,50 @@
         "ocean": {
           "navTitle": "言語の海",
           "labLabel": "言語の海",
-          "badge": "シーン 1 : 言語の海",
+          "badge": "シーン 1 ://言語の海",
           "title": "言語の海を泳ぐ",
           "body": "言語の海に飲み込まれそうになり、圧倒されて諦めてしまった経験はありませんか？\nたとえ一つの言語しか理解できなくても、これからはその海をうまく泳ぎ抜けることができるかもしれません。",
           "titleAccent": "",
           "ctaLabel": "その先にあらたなコミュニケーション"
         },
         "barrier": {
-          "navTitle": "言語の壁",
-          "labLabel": "言語の壁",
-          "badge": "シーン 2 : 言語の壁",
+          "navTitle": "://言語の壁",
+          "labLabel": "://言語の壁",
+          "badge": "シーン 2 // 言語の壁",
           "title": "言語の壁に立ち向かおう",
           "titleAccent": "",
           "body": "言語の海を泳ぎ抜けてきたあなたには、今度は言語の壁が立ちはだかります。\nあとは最初の一歩を踏み出す勇気だけです。\n言語の壁を突破したら多種多様な人々との日常的なコミュニケーションに発展できます。",
           "ctaLabel": "言語の壁を突破する"
         },
         "breakthrough": {
-          "navTitle": "日常生活でも",
-          "labLabel": "日常生活でも",
-          "badge": "シーン 3 : 日常生活",
+          "navTitle": "シーン ://日常生活でも",
+          "labLabel": "シーン ://日常生活でも",
+          "badge": "シーン 3 // 日常生活",
           "title": "日常生活のちょっとした",
           "titleAccent": "お手伝い",
           "body": "日常生活のなにげない？を解決のお手伝い。苦手な言語も簡単かつすばやく翻訳できる。"
         },
         "work": {
-          "navTitle": "仕事",
-          "labLabel": "仕事",
-          "badge": "シーン 4 : 仕事",
+          "navTitle": "シーン ://仕事",
+          "labLabel": "シーン ://仕事",
+          "badge": "シーン 4 // 仕事",
           "title": "仕事でも使える",
           "titleAccent": "手軽さ",
           "body": "仕事のシーンでの翻訳でも邪魔にならないコンパクトなUI設計。\n必要な箇所だけダイレクトに翻訳できる。",
           "ctaLabel": "範囲翻訳デモ"
         },
         "gaming": {
-          "navTitle": "ゲームの世界でも",
-          "labLabel": "ゲームの世界でも",
-          "badge": "シーン 5 : ゲームの世界でも",
+          "navTitle": "シーン ://ゲームの世界でも",
+          "labLabel": "シーン ://ゲームの世界でも",
+          "badge": "シーン 5 // ゲームの世界でも",
           "title": "世界と",
           "titleAccent": "プレイする",
           "body": "言語が異なっていても、瞬時に翻訳し、話し言葉を翻訳することでスムーズな会話を可能にします。\nコミュニケーションの幅は広がり世界中の様々なゲームに挑戦しましょう。"
         },
         "discovery": {
-          "navTitle": "機能概要",
-          "labLabel": "機能概要",
-          "badge": "シーン 6 : 機能概要",
+          "navTitle": "://機能概要",
+          "labLabel": "://機能概要",
+          "badge": "シーン 6 // 機能概要",
           "title": "機能概要",
           "titleAccent": "4つのメイン機能",
           "body": "機能には「範囲翻訳」「テキスト翻訳」「画像翻訳」「発言翻訳」の４つの機能があります。\nどの機能も直感的な操作で完結できる設計。\nどんな場面でもそれぞれの機能がきっとお役にたてるでしょう。"
@@ -297,9 +297,9 @@
           "body": "大陸が直接結ばれる。会話が瞬時に連鎖する。G.trans は物理的な領域にまたがる数千のノードを結び、距離が完全に最小化された相互連結エコシステムを創る。"
         },
         "future": {
-          "navTitle": "G.trans",
-          "labLabel": "G.trans",
-          "badge": "シーン 9 : G.trans",
+          "navTitle": "://G.trans",
+          "labLabel": "://G.trans",
+          "badge": "シーン 9 // G.trans",
           "title": "コミュニケーションは一歩先へ進む",
           "titleAccent": "言語という広大な海へ！",
           "body": "あとは最初の一歩を踏み出すだけだ。",
@@ -558,9 +558,9 @@
   },
   "defaults": {
     "particleCount": 750,
-    "interactiveMode": true,
-    "showDeveloperPanel": false,
     "bgmActive": false,
-    "sfxActive": true
+    "sfxActive": true,
+    "interactiveMode": true,
+    "showDeveloperPanel": false
   }
 }

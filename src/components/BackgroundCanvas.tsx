@@ -45,6 +45,14 @@ const WORLD_WORDS = [
   'BRIDGES', 'BEYOND', 'FREEDOM', 'CULTURE', 'EMPATHY', 'G.TRANS'
 ];
 
+/** Random small / medium / large base glyph size for 3D depth variety */
+function randomGlyphBaseSize() {
+  const roll = Math.random();
+  if (roll < 0.34) return 7 + Math.random() * 2.5;
+  if (roll < 0.68) return 11 + Math.random() * 4;
+  return 17 + Math.random() * 6;
+}
+
 // Final scene — red, blue, yellow, green, purple, sky (水色)
 const FUTURE_PARTICLE_COLORS = [
   '#EF4444',
@@ -136,7 +144,7 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
         vx: (Math.random() - 0.5) * 2,
         vy: (Math.random() - 0.5) * 2,
         vz: (Math.random() - 0.5) * 2,
-        size: isWord ? 11 + Math.random() * 5 : 12 + Math.random() * 12,
+        size: isWord ? 11 + Math.random() * 5 : randomGlyphBaseSize(),
         char,
         word,
         alpha: 0,
@@ -292,7 +300,6 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
 
             const oceanColors = ['#E0F2FE', '#BAE6FD', '#7DD3FC', '#38BDF8', '#0EA5E9'];
             p.color = oceanColors[layer] ?? '#38BDF8';
-            p.size = 9 + (idx % 5);
 
             p.x = p.tx;
             p.y = p.ty;
@@ -471,7 +478,7 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
               MULTILINGUAL_CHARS,
               time,
               oceanViewport,
-              { giant: spawn.giant },
+              { rare: spawn.rare },
             ),
           );
           nextOceanSpawnRef.current = time + 4 + Math.random() * 7;
@@ -573,8 +580,9 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
         }
 
         // Apply optical Depth of Field (DoF): particles far away or extremely close are blurred or smaller.
-        // We simulate blur relative to size and scale.
-        const size = Math.max(1, p.size * scale * 0.95);
+        const depthBoost =
+          currentScene === 'ocean' ? 0.72 + Math.min(1.1, (p.z - 30) / 230) * 0.5 : 1;
+        const size = Math.max(1, p.size * scale * 0.95 * depthBoost);
         if (size < 0.8) return;
 
         // Establish the color

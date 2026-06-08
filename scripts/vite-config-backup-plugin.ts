@@ -44,7 +44,12 @@ export function configBackupPlugin(): Plugin {
           const filepath = join(backupsDir, filename);
           writeFileSync(filepath, body, 'utf8');
           writeFileSync(join(backupsDir, LATEST_CUSTOM_BACKUP), body, 'utf8');
-          writeFileSync(join(process.cwd(), 'src', 'config', 'shippedCinematicConfig.json'), body, 'utf8');
+
+          // Full backup only — autosave must not rewrite bundled JSON (triggers Vite reload in admin).
+          const fullBackup = req.headers['x-backup-mode'] === 'full';
+          if (fullBackup) {
+            writeFileSync(join(process.cwd(), 'src', 'config', 'shippedCinematicConfig.json'), body, 'utf8');
+          }
 
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');

@@ -1014,11 +1014,7 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
       </div>
 
       {/* 3. FOOTER MICRO CONTROL OVERLAYS */}
-      <div className="w-full flex items-center justify-between pointer-events-auto text-xs font-mono text-zinc-500">
-        <div>
-          <span>© 2026 G.TRANS INC.</span>
-        </div>
-        
+      <div className="w-full flex items-center justify-end pointer-events-auto text-xs font-mono text-zinc-500">
         {/* Quick action buttons */}
         <div className="flex space-x-6">
           <button 
