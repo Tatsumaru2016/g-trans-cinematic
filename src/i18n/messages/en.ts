@@ -71,7 +71,7 @@ export const en: MessageCatalog = {
     offline: 'Voice Simulator Offline',
   },
   discovery: {
-    hoverHint: 'Hover over signs to translate',
+    hoverHint: 'Click on each function.',
   },
   connection: {
     syncActive: 'GLOBAL SYNC ACTIVE',

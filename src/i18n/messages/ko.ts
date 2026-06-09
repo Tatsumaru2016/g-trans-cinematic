@@ -72,7 +72,7 @@ export const ko: MessageCatalog = {
     offline: '음성 시뮬레이터 오프라인',
   },
   discovery: {
-    hoverHint: '간판에 마우스를 올려 번역',
+    hoverHint: '각 기능을 클릭하세요.',
   },
   connection: {
     syncActive: 'GLOBAL SYNC ACTIVE',

@@ -70,7 +70,7 @@ export const zh: MessageCatalog = {
     offline: '语音模拟器离线',
   },
   discovery: {
-    hoverHint: '悬停看板以翻译',
+    hoverHint: '请点击各功能。',
   },
   connection: {
     syncActive: 'GLOBAL SYNC ACTIVE',

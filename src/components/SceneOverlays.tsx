@@ -848,8 +848,11 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
                     </>
                   )}
                 </h1>
-                <p className={`font-sans text-base mb-6 ${SCENE_ACCENT.discovery.bodyCopy}`}>
+                <p className={`font-sans text-base mb-3 ${SCENE_ACCENT.discovery.bodyCopy}`}>
                   {scenes.discovery.body}
+                </p>
+                <p className="mb-6 text-xs text-zinc-500 animate-pulse font-sans">
+                  {t('discovery.hoverHint')}
                 </p>
               </div>
 

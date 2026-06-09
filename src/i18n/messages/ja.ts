@@ -72,7 +72,7 @@ export const ja: MessageCatalog = {
     offline: '音声シミュレーター オフライン',
   },
   discovery: {
-    hoverHint: '看板にカーソルを合わせて翻訳',
+    hoverHint: '各機能をクリックしてください。',
   },
   connection: {
     syncActive: 'GLOBAL SYNC ACTIVE',
