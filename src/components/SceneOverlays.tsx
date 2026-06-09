@@ -433,8 +433,10 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
         <GTranLogo size={36} light={currentScene === 'future'} />
         
         {/* Active Scene tracker */}
-        <div className="hidden md:flex items-center text-xs font-mono tracking-widest text-zinc-400 uppercase">
-          <span className={sceneAccent.text}>{topSceneLabel}</span>
+        <div className="hidden md:flex items-center text-xs font-mono tracking-widest text-zinc-400">
+          <span className={`${sceneAccent.text}${currentScene === 'breakthrough' ? ' normal-case' : ' uppercase'}`}>
+            {topSceneLabel}
+          </span>
         </div>
       </div>
 
@@ -521,7 +523,7 @@ export const SceneOverlays: React.FC<SceneOverlaysProps> = ({
               <div className={SCENE_ACCENT.breakthrough.badgePill}>
                 {scenes.breakthrough.badge}
               </div>
-              <h1 className="font-display text-5xl md:text-8xl font-black tracking-tight text-white mb-6 uppercase italic">
+              <h1 className="font-display text-5xl md:text-8xl font-black tracking-tight text-white mb-6 italic">
                 {scenes.breakthrough.title}
                 {scenes.breakthrough.titleAccent && (
                   <>

@@ -36,6 +36,11 @@ export const ja: MessageCatalog = {
   logo: {
     sublabel: 'Translation tool',
   },
+  loading: {
+    title: 'G.trans',
+    status: 'シネマティック体験を準備しています…',
+    progressLabel: 'Loading',
+  },
   toolbar: {
     sectionLabel: 'G.trans ツールバー',
     clickToDemo: 'Click to Demo',

@@ -44,6 +44,11 @@ export interface MessageCatalog {
   logo: {
     sublabel: string;
   };
+  loading: {
+    title: string;
+    status: string;
+    progressLabel: string;
+  };
   toolbar: {
     sectionLabel: string;
     clickToDemo: string;

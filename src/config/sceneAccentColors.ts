@@ -111,9 +111,9 @@ export const SCENE_ACCENT: Record<SceneType, SceneAccentTheme> = {
     hoverBg: 'hover:bg-blue-400',
     hoverShadow: 'hover:shadow-blue-400/20',
     badgePill:
-      'px-3 py-1 mb-6 text-[10px] font-mono tracking-[0.25em] text-blue-300 border border-blue-500/30 rounded-full bg-blue-950/20 uppercase',
+      'px-3 py-1 mb-6 text-[10px] font-mono tracking-[0.25em] text-blue-300 border border-blue-500/30 rounded-full bg-blue-950/20',
     badgePillCompact:
-      'px-3 py-1 mb-4 text-[10px] font-mono tracking-[0.25em] text-blue-300 border border-blue-500/30 rounded-full bg-blue-950/20 uppercase inline-block',
+      'px-3 py-1 mb-4 text-[10px] font-mono tracking-[0.25em] text-blue-300 border border-blue-500/30 rounded-full bg-blue-950/20 inline-block',
     signCardActive: 'border-blue-400 bg-blue-950/20 scale-102 shadow-lg shadow-blue-500/10',
     routeBtnActive: 'border-blue-400 bg-blue-950/20 text-white',
     panelBorder: 'border-blue-500/20',

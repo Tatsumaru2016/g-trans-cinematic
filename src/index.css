@@ -25,6 +25,97 @@ html, body {
   width: 100vw;
 }
 
+.boot-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 42%, #0a1224 0%, #030712 52%, #020617 100%);
+  color: #fff;
+}
+
+.boot-shell__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 42%,
+    rgba(0, 229, 255, 0.12) 0%,
+    rgba(59, 130, 246, 0.05) 28%,
+    transparent 58%
+  );
+}
+
+.boot-shell__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.boot-shell__logo {
+  width: 76px;
+  height: 76px;
+  border-radius: 9999px;
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.12);
+  margin-bottom: 28px;
+}
+
+.boot-shell__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.boot-shell__status {
+  margin: 10px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(34, 211, 238, 0.8);
+}
+
+.boot-shell__track {
+  width: min(18rem, calc(100vw - 3rem));
+  height: 3px;
+  margin-top: 36px;
+  border-radius: 9999px;
+  background: rgba(24, 24, 27, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+.boot-shell__bar {
+  width: 36%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3b82f6 0%, #00e5ff 55%, #8b5cf6 100%);
+  animation: bootShellBarPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes bootShellBarPulse {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
 /* Admin dashboard: allow page scroll */
 html.admin-view,
 html.admin-view body {
@@ -169,5 +260,79 @@ html.admin-view #root {
   50% {
     opacity: 1;
     filter: drop-shadow(0 0 7px rgba(2, 132, 199, 0.55));
+  }
+}
+
+.cinematic-loading-logo-ring {
+  position: relative;
+}
+
+.cinematic-loading-logo-ring::before {
+  content: '';
+  position: absolute;
+  inset: -18px;
+  border-radius: 9999px;
+  border: 1px solid rgba(34, 211, 238, 0.12);
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.08);
+  animation: cinematicLoadingRingPulse 2.4s ease-in-out infinite;
+}
+
+.cinematic-loading-glyph {
+  animation: cinematicLoadingGlyphDrift 4.8s ease-in-out infinite;
+}
+
+.cinematic-loading-track {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cinematic-loading-bar {
+  background: linear-gradient(90deg, #3b82f6 0%, #00e5ff 55%, #8b5cf6 100%);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.45);
+  transition: width 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cinematic-loading-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 100%
+  );
+  animation: cinematicLoadingBarSheen 1.4s linear infinite;
+}
+
+@keyframes cinematicLoadingRingPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cinematicLoadingGlyphDrift {
+  0%,
+  100% {
+    opacity: 0.12;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.28;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes cinematicLoadingBarSheen {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(120%);
   }
 }

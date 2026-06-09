@@ -35,6 +35,11 @@ export const zh: MessageCatalog = {
   logo: {
     sublabel: 'Translation tool',
   },
+  loading: {
+    title: 'G.trans',
+    status: '正在准备沉浸式体验…',
+    progressLabel: 'Loading',
+  },
   toolbar: {
     sectionLabel: 'G.trans 工具栏',
     clickToDemo: 'Click to Demo',

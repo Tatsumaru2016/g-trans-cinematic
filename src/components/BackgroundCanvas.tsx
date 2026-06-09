@@ -5,6 +5,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { SCENE_ACCENT } from '../config/sceneAccentColors';
+import type { SceneContent } from '../config/defaultCinematicConfig';
+import { useLocalizedScenes } from '../hooks/useLocalizedScenes';
 import {
   createOceanCreature,
   drawOceanCreatures,
@@ -234,6 +236,30 @@ function createDiscoveryBuildings() {
   return buildings;
 }
 
+function breakthroughWordPool(scene: SceneContent): string[] {
+  const pool: string[] = [];
+  const push = (value?: string) => {
+    const trimmed = value?.trim();
+    if (trimmed) pool.push(trimmed);
+  };
+  push(scene.title);
+  push(scene.titleAccent);
+  return pool;
+}
+
+function initBreakthroughParticles(particles: Particle3D[], wordPool: string[]) {
+  particles.forEach((p, idx) => {
+    if (wordPool.length > 0) {
+      p.word = wordPool[idx % wordPool.length];
+      p.size = 11 + Math.random() * 5;
+    } else {
+      p.word = undefined;
+      p.size = randomGlyphBaseSize();
+    }
+    p.char = MULTILINGUAL_CHARS[idx % MULTILINGUAL_CHARS.length] ?? '言';
+  });
+}
+
 function initDiscoveryWarpParticles(particles: Particle3D[]) {
   particles.forEach((p, idx) => {
     const angle = discoveryScatterAngle(idx * 1.07 + 0.19);
@@ -275,6 +301,7 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
   interactiveMode,
   particleCount = 500
 }) => {
+  const { scenes } = useLocalizedScenes();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const particlesRef = useRef<Particle3D[]>([]);
@@ -379,9 +406,12 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
       oceanCreaturesRef.current = [];
       nextOceanSpawnRef.current = 0;
       sceneTimeRef.current = 0;
-    } else if (currentScene === 'breakthrough' && prevSceneRef.current !== 'breakthrough') {
-      initializeParticles(particleCount);
-      sceneTimeRef.current = 0;
+    } else if (currentScene === 'breakthrough') {
+      if (prevSceneRef.current !== 'breakthrough') {
+        initializeParticles(particleCount);
+        sceneTimeRef.current = 0;
+      }
+      initBreakthroughParticles(particlesRef.current, breakthroughWordPool(scenes.breakthrough));
     } else if (currentScene === 'future' && prevSceneRef.current !== 'future') {
       initializeParticles(particleCount);
       sceneTimeRef.current = 0;
@@ -392,7 +422,7 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
       sceneTimeRef.current = 0;
     }
     prevSceneRef.current = currentScene;
-  }, [currentScene, particleCount]);
+  }, [currentScene, particleCount, scenes.breakthrough]);
 
   // Main Render and Calculation Loop
   useEffect(() => {
@@ -846,7 +876,12 @@ export const BackgroundCanvas: React.FC<BackgroundCanvasProps> = ({
             warpBoost,
             p.color,
           );
-        } else if (p.word && currentScene !== 'barrier' && currentScene !== 'future' && currentScene !== 'ocean') {
+        } else if (
+          p.word &&
+          currentScene !== 'barrier' &&
+          currentScene !== 'future' &&
+          currentScene !== 'ocean'
+        ) {
           // Render elegant full words for conceptual visual elements (Work, Connection, etc.)
           ctx.font = `600 ${size * 0.9}px var(--font-sans)`;
           ctx.fillText(p.word, screenX, screenY);

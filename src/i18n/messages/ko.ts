@@ -36,6 +36,11 @@ export const ko: MessageCatalog = {
   logo: {
     sublabel: 'Translation tool',
   },
+  loading: {
+    title: 'G.trans',
+    status: '시네마틱 체험을 준비하고 있습니다…',
+    progressLabel: 'Loading',
+  },
   toolbar: {
     sectionLabel: 'G.trans 툴바',
     clickToDemo: 'Click to Demo',

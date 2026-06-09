@@ -35,6 +35,11 @@ export const en: MessageCatalog = {
   logo: {
     sublabel: 'Translation tool',
   },
+  loading: {
+    title: 'G.trans',
+    status: 'Preparing cinematic experience…',
+    progressLabel: 'Loading',
+  },
   toolbar: {
     sectionLabel: 'G.trans Toolbar',
     clickToDemo: 'Click to Demo',
